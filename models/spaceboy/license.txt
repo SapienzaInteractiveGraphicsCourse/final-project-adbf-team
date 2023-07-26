@@ -1,0 +1,11 @@
+Model Information:
+* title:	Engineer Space Rigged
+* source:	https://sketchfab.com/3d-models/engineer-space-rigged-f71089cee0674033ab0fe6b1563d5793
+* author:	Harlie/Kaeul (https://sketchfab.com/harleymh)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Engineer Space Rigged" (https://sketchfab.com/3d-models/engineer-space-rigged-f71089cee0674033ab0fe6b1563d5793) by Harlie/Kaeul (https://sketchfab.com/harleymh) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
