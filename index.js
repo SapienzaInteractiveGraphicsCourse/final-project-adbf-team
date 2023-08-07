@@ -4,30 +4,34 @@ import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/thre
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 10000 );
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.shadowMap.enabled = true;
 
-document.body.appendChild( renderer.domElement );
-document.body.addEventListener( 'keydown', onKeyDown, false );
+const controls = new OrbitControls( camera, renderer.domElement );
 
-//const geometry = new THREE.BoxGeometry( 1, 1, 1);
+document.body.appendChild( renderer.domElement );
+
+//const geometry = new THREE.BoxGeometry(3, 3, 3);
 //const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 //const cube = new THREE.Mesh( geometry, material );
 //scene.add( cube );
 
-camera.position.z = 5;
-camera.position.y = 10;
-camera.position.x = -10;
-camera.lookAt(new THREE.Vector3(0,0,0));
+camera.position.z = 10;
+camera.position.y = 2;
+camera.position.x = -5;
+//camera.lookAt(new THREE.Vector3(0,0,0));
+controls.update();
 
-var check;
+var check, map, cab, box, tree, clock, truck, chair, coach, can, fridge, wardrobe, table, train, tv, woodTv, vCab, gCab;
 
 const loader = new GLTFLoader();
-loader.load( 'models/scene1/town.glb', function ( gltf ) {
-	scene.add( gltf.scene );
+loader.load( 'models/scene1/lowpoly_city.glb', function ( gltf ) {
+	map = gltf.scene;
+	map.position.set(0,0,0);
+	scene.add( map );
 }, undefined, function ( error ) {
 	console.error( error );
 } );
@@ -35,43 +39,154 @@ loader.load( 'models/scene1/town.glb', function ( gltf ) {
 const loaderCheck = new GLTFLoader();
 loaderCheck.load('models/checkpoint/diorama.glb', function(gltf){
     check= gltf.scene;
-    //check.scale.set(5,5,5);
-    check.position.set(0,40,-5);
+    check.scale.set(0.6,0.6,0.6);
+    check.position.set(0,10,0);
     //check.rotation.y = Math.PI/180;
     scene.add(check);
 })
 
+//const loaderCab = new GLTFLoader();
+//loaderCab.load('models/obstacles/cabinet.glb', function(gltf){
+//    cab= gltf.scene;
+//    //cab.scale.set(1,1,1);
+//    cab.position.set(0,0,0);
+//    //cab.rotation.y = Math.PI/180;
+//    scene.add(cab);
+//})
+
+const loaderBox = new GLTFLoader();
+loaderBox.load('models/obstacles/cardboard_box.glb', function(gltf){
+    box= gltf.scene;
+    //box.scale.set(1,1,1);
+    box.position.set(-39,-0.5,23);
+    //box.rotation.y = Math.PI/180;
+    scene.add(box);
+})
+
+const loaderTree = new GLTFLoader();
+loaderTree.load('models/obstacles/cartoon_fallen_tree.glb', function(gltf){
+    tree= gltf.scene;
+    tree.scale.set(0.005,0.005,0.005);
+    tree.position.set(0.2,8.5,5);
+    //tree.rotation.y = Math.PI/180;
+    scene.add(tree);
+})
+const loaderClock = new GLTFLoader();
+loaderClock.load('models/obstacles/clock_radio.glb', function(gltf){
+    clock= gltf.scene;
+    clock.scale.set(0.5,0.5,0.5);
+    clock.position.set(-4,0.8,-2);
+    clock.rotation.y = Math.PI/10;
+    scene.add(clock);
+})
+
+const loaderTruck = new GLTFLoader();
+loaderTruck.load('models/obstacles/dumptruck.glb', function(gltf){
+    truck= gltf.scene;
+    truck.scale.set(0.6,0.6,0.6);
+    truck.position.set(-5,-0.8,-4);
+    //truck.rotation.y = Math.PI/180;
+    scene.add(truck);
+})
+
+const loaderChair = new GLTFLoader();
+loaderChair.load('models/obstacles/green_armchair.glb', function(gltf){
+    chair= gltf.scene;
+    chair.scale.set(0.25,0.25,0.25);
+    chair.position.set(-3,1.6,0);
+	chair.rotation.x = 25;
+    chair.rotation.y = 10.2;
+    scene.add(chair);
+})
+
+const loaderCoach = new GLTFLoader();
+loaderCoach.load('models/obstacles/gwr_coach.glb', function(gltf){
+    coach= gltf.scene;
+    coach.scale.set(0.4,0.4,0.4);
+    coach.position.set(-2,3,-5);
+    coach.rotation.y = 11.5;
+    scene.add(coach);
+})
+
+const loaderCan = new GLTFLoader();
+loaderCan.load('models/obstacles/living_garbage_can.glb', function(gltf){
+    can= gltf.scene;
+    can.scale.set(0.2,0.2,0.2);
+    can.position.set(-1.2,7.6,1);
+    can.rotation.x = 14;
+    scene.add(can);
+})
+
+const loaderFridge = new GLTFLoader();
+loaderFridge.load('models/obstacles/stylized_fridge.glb', function(gltf){
+    fridge= gltf.scene;
+    fridge.scale.set(0.4,0.4,0.4);
+    fridge.position.set(3,3.2,-7);
+	fridge.rotation.x = 30;
+    fridge.rotation.y = 15.5;
+    scene.add(fridge);
+})
+
+const loaderTable = new GLTFLoader();
+loaderTable.load('models/obstacles/table.glb', function(gltf){
+    table= gltf.scene;
+    table.scale.set(1.5,1.5,1.5);
+    table.position.set(2.5,4,-4.8);
+    scene.add(table);
+})
+
+const loaderTrain = new GLTFLoader();
+loaderTrain.load('models/obstacles/train_carriage.glb', function(gltf){
+    train= gltf.scene;
+    train.scale.set(0.015,0.015,0.015);
+    train.position.set(5,7.5,2.4);
+    train.rotation.x = -12;
+    train.rotation.y = 18;
+    scene.add(train);
+})
+
+const loaderTv = new GLTFLoader();
+loaderTv.load('models/obstacles/tv_sony.glb', function(gltf){
+    tv= gltf.scene;
+    tv.scale.set(2,2,2);
+    tv.position.set(3,4.5,-3);
+    tv.rotation.x = 5.8;
+    tv.rotation.y = 20;
+    scene.add(tv);
+})
+
+const loaderWoodTv = new GLTFLoader();
+loaderWoodTv.load('models/obstacles/tv_stand_wood.glb', function(gltf){
+    woodTv= gltf.scene;
+    //woodTv.scale.set(5,5,5);
+    woodTv.position.set(-1.5,8,3.5);
+    woodTv.rotation.x = 12;
+    woodTv.rotation.y = 10;
+    scene.add(woodTv);
+})
+
+const loaderVcabinet = new GLTFLoader();
+loaderVcabinet.load('models/obstacles/vintage_cabinet.glb', function(gltf){
+    vCab= gltf.scene;
+    vCab.scale.set(1.5,1.5,1.5);
+    vCab.position.set(2,5.8,-0.2);
+    vCab.rotation.x = 5.5;
+    vCab.rotation.y = 10;
+    scene.add(vCab);
+})
+
+//controls.target = check;
+
 const light = new THREE.HemisphereLight( 0xf6f6f6, 1 );
-//light.position.set( 0, 1, 0 );
+light.position.set( 1, 1, 1 );
 //light.castShadow = true;
 scene.add( light );
 
 function animate() {
 	requestAnimationFrame( animate );
+	//controls.target = new THREE.Vector3(0, 0, 0);
+	controls.update();
 	renderer.render( scene, camera );
-}
-
-function onKeyDown(){
-	switch( event.keyCode ) {
-	   case 83: // up
-	   camera.position.y -= 5;
-	   break;
-	   case 87: // down
-	   camera.position.y += 5;
-	   break;
-	   case 65: // A
-	   camera.position.x += 5;
-	   break;
-	   case 68: // D
-	   camera.position.x -= 5;
-	   break;
-	   case 81: // Q
-	   camera.position.z += 5;
-	   break;
-	   case 69: // E
-	   camera.position.z -= 5;
-	   break;
-	}
 }
 
 animate();
