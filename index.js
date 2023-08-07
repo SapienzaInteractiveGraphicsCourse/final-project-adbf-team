@@ -41,18 +41,8 @@ loaderCheck.load('models/checkpoint/diorama.glb', function(gltf){
     check= gltf.scene;
     check.scale.set(0.6,0.6,0.6);
     check.position.set(0,10,0);
-    //check.rotation.y = Math.PI/180;
     scene.add(check);
 })
-
-//const loaderCab = new GLTFLoader();
-//loaderCab.load('models/obstacles/cabinet.glb', function(gltf){
-//    cab= gltf.scene;
-//    //cab.scale.set(1,1,1);
-//    cab.position.set(0,0,0);
-//    //cab.rotation.y = Math.PI/180;
-//    scene.add(cab);
-//})
 
 const loaderBox = new GLTFLoader();
 loaderBox.load('models/obstacles/cardboard_box.glb', function(gltf){
