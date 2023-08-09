@@ -53,6 +53,7 @@ export class CharacterFSM extends FiniteStateMachine {
     }
     _setValues() {
       this._targetDict.Head.mesh.rotation.x = -3.0;
+      this._targetDict.Head.mesh.rotation.z = Math.PI;
       this._targetDict.Trunk.mesh.rotation.x = 0.01004335843026638;
 
       this._targetDict.Shoulder_dx.mesh.rotation.y = -0.3;
@@ -85,13 +86,11 @@ export class CharacterFSM extends FiniteStateMachine {
 class IdleState extends State {
     constructor(params) {
     super(params);
-    
     this._stateHead = 0;
-    this._stateArms = 0;
     }
   
   enter() {
-    
+   this._stateHead = 0;
    this._parent._setValues();
     
 
@@ -106,7 +105,25 @@ class IdleState extends State {
         return;
     }
 
-    
+    //optional: movement of the head/arms while standing still
+    //switch(this._stateHead){
+    //  case 0:
+    //    if(this._targetDict.Head.mesh.rotation.z >= Math.PI + 0.02){
+    //      this._stateHead = 1;
+    //    }
+    //    else{
+    //      this._targetDict.Head.mesh.rotation.z += 0.0007;
+    //    }
+    //    break;
+    //  case 1:
+    //    if(this._targetDict.Head.mesh.rotation.z < Math.PI - 0.02){
+    //      this._stateHead = 0;
+    //    }
+    //    else{
+    //      this._targetDict.Head.mesh.rotation.z -= 0.0007;
+    //    }
+    //    break;
+    //}
 
 
   }
