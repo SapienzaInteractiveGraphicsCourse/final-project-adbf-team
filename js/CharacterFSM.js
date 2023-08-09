@@ -210,61 +210,67 @@ class WalkState extends State {
 
 class JumpState extends State {
   constructor(params) {
-    super(params);
+      super(params);
 
-    this._stateLegs = 0;
-    this._isJumping = false;
+      this._stateLegs = 0;
+      this._stateArms = 0;
+      this._isJumping = 0;
   }
 
-  enter() {
-    this._isJumping = true;
-    this._stateLegs = 0;
-    const armRotation = 0.6;
-    this._targetDict.Lower_Arm_dx.mesh.rotation.z = armRotation;
-    this._targetDict.Lower_Arm_sx.mesh.rotation.z = -armRotation;
-    this._targetDict.Lower_Leg_sx.mesh.rotation.x = 0;
-    this._targetDict.Lower_Leg_dx.mesh.rotation.x = 0;
+  enter(){
+    this._isJumping = 1;
+    this._parent._setValues();
+    this._targetDict.Lower_Arm_sx.mesh.rotation.z = -1.2;
+    this._targetDict.Lower_Arm_dx.mesh.rotation.z = 1.2;
+    this._targetDict.Upper_Leg_sx.mesh.rotation.x = 0.5;
+    this._targetDict.Upper_Leg_dx.mesh.rotation.x = -0.5;
+    this._targetDict.Lower_Leg_sx.mesh.rotation.x = 1;
+    this._targetDict.Lower_Leg_dx.mesh.rotation.x = -1;
   }
 
   update(input) {
-    if (this._isJumping) {
-      // Move arms upwards and crouch the legs while jumping
-      const armRotationSpeed = 0.05;
-      const legRotationSpeed = 0.05;
 
-      if (this._stateLegs === 0) {
-        if (this._targetDict.Upper_Arm_dx.mesh.rotation.z > 0.7) {
-          this._stateLegs = 1;
-        } else {
-          this._targetDict.Upper_Arm_dx.mesh.rotation.z += armRotationSpeed;
-          this._targetDict.Upper_Arm_sx.mesh.rotation.z -= armRotationSpeed;
-          this._targetDict.Lower_Arm_dx.mesh.rotation.z += armRotationSpeed;
-          this._targetDict.Lower_Arm_sx.mesh.rotation.z -= armRotationSpeed;
-          this._targetDict.Lower_Leg_sx.mesh.rotation.x += legRotationSpeed;
-          this._targetDict.Lower_Leg_dx.mesh.rotation.x += legRotationSpeed;
-          this._targetDict.Trunk.mesh.rotation.x += 0.005;
-        }
-      } else {
-        if (
-          this._targetDict.Upper_Arm_dx.mesh.rotation.z <= 0.1 &&
-          this._targetDict.Lower_Leg_sx.mesh.rotation.x <= 0 &&
-          this._targetDict.Lower_Leg_dx.mesh.rotation.x >= 0
-        ) {
-          this._isJumping = false;
-          this._parent.setState('idle');
-        } else {
-          this._targetDict.Upper_Arm_dx.mesh.rotation.z -= armRotationSpeed;
-          this._targetDict.Upper_Arm_sx.mesh.rotation.z += armRotationSpeed;
-          this._targetDict.Lower_Arm_dx.mesh.rotation.z -= armRotationSpeed;
-          this._targetDict.Lower_Arm_sx.mesh.rotation.z += armRotationSpeed;
-          this._targetDict.Lower_Leg_sx.mesh.rotation.x -= legRotationSpeed;
-          this._targetDict.Lower_Leg_dx.mesh.rotation.x += legRotationSpeed;
-          this._targetDict.Trunk.mesh.rotation.x -= 0.005;
-        }
+      var speed1 = 0.06;
+      if(this._isJumping == 1){
+      switch (this._stateArms) {
+          case 0:
+              if (this._targetDict.Upper_Arm_dx.mesh.rotation.z >= Math.PI/3) {
+                  this._stateArms = 1;
+              } else {
+                  this._targetDict.Upper_Arm_sx.mesh.rotation.z -= speed1;
+                  this._targetDict.Upper_Arm_dx.mesh.rotation.z += speed1;
+
+                  this._targetDict.Upper_Leg_sx.mesh.rotation.x -= speed1;
+                  this._targetDict.Upper_Leg_dx.mesh.rotation.x += speed1;
+
+                  this._targetDict.Trunk.mesh.rotation.x += 0.005;
+
+                  this._targetDict.Head.mesh.rotation.x += 0.003;
+                  
+              }
+              break;
+
+          case 1:
+            if (this._targetDict.Upper_Arm_dx.mesh.rotation.z < -Math.PI/7) {
+              this._isJumping = 0; // Jump animation finished
+              this._parent.setState("idle"); // Transition to idle state
+          } else {
+            this._targetDict.Upper_Arm_sx.mesh.rotation.z += speed1;
+            this._targetDict.Upper_Arm_dx.mesh.rotation.z -= speed1;
+
+            this._targetDict.Upper_Leg_sx.mesh.rotation.x += speed1;
+            this._targetDict.Upper_Leg_dx.mesh.rotation.x -= speed1;
+
+            this._targetDict.Trunk.mesh.rotation.x -= 0.005;
+
+            this._targetDict.Head.mesh.rotation.x -= 0.003;
+          }
+              break;
       }
     }
+      //this._parent.setState("idle");
   }
-}
+  }
 
 class RunState extends State {
   constructor(params) {

@@ -13,7 +13,7 @@ export class CharacterController {
         this._decceleration = new THREE.Vector3(-0.5, -0.005, -0.3);
         this._acceleration = new THREE.Vector3(0.07, 0.001, 0.02);
         this._velocity = new THREE.Vector3(0, 0, 0);
-        this._jumpVelocity = 40;
+        this._jumpVelocity = 50;
         this._canJump=true;
         this._jumping = false;
         this._stateMachine = new CharacterFSM(this._target);
