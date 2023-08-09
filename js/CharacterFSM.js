@@ -215,37 +215,59 @@ class JumpState extends State {
       this._stateLegs = 0;
       this._stateArms = 0;
       this._isJumping = 0;
+      this.prevState = "";
   }
 
-  enter(){
+  enter(prevState){
+    this.prevState = prevState;
     this._isJumping = 1;
     this._parent._setValues();
+
+    if(this.prevState._name != "idle"){
     this._targetDict.Lower_Arm_sx.mesh.rotation.z = -1.2;
     this._targetDict.Lower_Arm_dx.mesh.rotation.z = 1.2;
     this._targetDict.Upper_Leg_sx.mesh.rotation.x = 0.5;
     this._targetDict.Upper_Leg_dx.mesh.rotation.x = -0.5;
     this._targetDict.Lower_Leg_sx.mesh.rotation.x = 1;
     this._targetDict.Lower_Leg_dx.mesh.rotation.x = -1;
+    }
   }
 
   update(input) {
 
-      var speed1 = 0.06;
+      var jump_movement_speed = 0.06;
       if(this._isJumping == 1){
       switch (this._stateArms) {
           case 0:
               if (this._targetDict.Upper_Arm_dx.mesh.rotation.z >= Math.PI/3) {
                   this._stateArms = 1;
               } else {
-                  this._targetDict.Upper_Arm_sx.mesh.rotation.z -= speed1;
-                  this._targetDict.Upper_Arm_dx.mesh.rotation.z += speed1;
+                if(this.prevState._name == "idle"){   //if the character was not moving, the jump is on the spot!
+                  this._targetDict.Upper_Arm_sx.mesh.rotation.z -= jump_movement_speed;
+                  this._targetDict.Upper_Arm_dx.mesh.rotation.z += jump_movement_speed;
 
-                  this._targetDict.Upper_Leg_sx.mesh.rotation.x -= speed1;
-                  this._targetDict.Upper_Leg_dx.mesh.rotation.x += speed1;
+                  this._targetDict.Upper_Leg_sx.mesh.rotation.x += jump_movement_speed;
+                  this._targetDict.Upper_Leg_dx.mesh.rotation.x += jump_movement_speed;
+
+                  this._targetDict.Lower_Leg_sx.mesh.rotation.x = 1;
+                  this._targetDict.Lower_Leg_dx.mesh.rotation.x = 1;
 
                   this._targetDict.Trunk.mesh.rotation.x += 0.005;
 
                   this._targetDict.Head.mesh.rotation.x += 0.003;
+
+                }
+                else{
+                  this._targetDict.Upper_Arm_sx.mesh.rotation.z -= jump_movement_speed;
+                  this._targetDict.Upper_Arm_dx.mesh.rotation.z += jump_movement_speed;
+
+                  this._targetDict.Upper_Leg_sx.mesh.rotation.x -= jump_movement_speed;
+                  this._targetDict.Upper_Leg_dx.mesh.rotation.x += jump_movement_speed;
+
+                  this._targetDict.Trunk.mesh.rotation.x += 0.005;
+
+                  this._targetDict.Head.mesh.rotation.x +=  0.003;
+                }
                   
               }
               break;
@@ -255,15 +277,31 @@ class JumpState extends State {
               this._isJumping = 0; // Jump animation finished
               this._parent.setState("idle"); // Transition to idle state
           } else {
-            this._targetDict.Upper_Arm_sx.mesh.rotation.z += speed1;
-            this._targetDict.Upper_Arm_dx.mesh.rotation.z -= speed1;
+            if(this.prevState._name == "idle"){
+              this._targetDict.Upper_Arm_sx.mesh.rotation.z += jump_movement_speed;
+              this._targetDict.Upper_Arm_dx.mesh.rotation.z -= jump_movement_speed;
 
-            this._targetDict.Upper_Leg_sx.mesh.rotation.x += speed1;
-            this._targetDict.Upper_Leg_dx.mesh.rotation.x -= speed1;
+              this._targetDict.Upper_Leg_sx.mesh.rotation.x -= jump_movement_speed;
+              this._targetDict.Upper_Leg_dx.mesh.rotation.x -= jump_movement_speed;
+
+              this._targetDict.Lower_Leg_sx.mesh.rotation.x -= 0.05;
+              this._targetDict.Lower_Leg_dx.mesh.rotation.x -= 0.05;
+
+              this._targetDict.Trunk.mesh.rotation.x -= 0.005;
+
+              this._targetDict.Head.mesh.rotation.x -= 0.003;
+            }
+            else{
+            this._targetDict.Upper_Arm_sx.mesh.rotation.z += jump_movement_speed;
+            this._targetDict.Upper_Arm_dx.mesh.rotation.z -= jump_movement_speed;
+
+            this._targetDict.Upper_Leg_sx.mesh.rotation.x += jump_movement_speed;
+            this._targetDict.Upper_Leg_dx.mesh.rotation.x -= jump_movement_speed;
 
             this._targetDict.Trunk.mesh.rotation.x -= 0.005;
 
             this._targetDict.Head.mesh.rotation.x -= 0.003;
+            }
           }
               break;
       }
