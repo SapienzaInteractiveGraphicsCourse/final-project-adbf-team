@@ -103,14 +103,6 @@
             return this._name;
         }
 
-        lerp (start, end, amt){
-            return [
-                (1-amt)*start.x+amt*end.x,
-                (1-amt)*start.y+amt*end.y,
-                (1-amt)*start.z+amt*end.z,
-            ]
-        }
-
         enter() {return;}
         exit() {return;}
         update() {return;}

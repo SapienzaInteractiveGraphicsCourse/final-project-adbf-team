@@ -204,24 +204,66 @@ class WalkState extends State {
       this._targetDict.Upper_Arm_dx.mesh.rotation.z += speed;
       this._targetDict.Upper_Arm_sx.mesh.rotation.z += speed;
       break;  
-  }
-    
-    
+    }
   } 
-
-  
 }
 
 class JumpState extends State {
   constructor(params) {
     super(params);
+
+    this._stateLegs = 0;
+    this._isJumping = false;
+  }
+
+  enter() {
+    this._isJumping = true;
+    this._stateLegs = 0;
+    const armRotation = 0.6;
+    this._targetDict.Lower_Arm_dx.mesh.rotation.z = armRotation;
+    this._targetDict.Lower_Arm_sx.mesh.rotation.z = -armRotation;
+    this._targetDict.Lower_Leg_sx.mesh.rotation.x = 0;
+    this._targetDict.Lower_Leg_dx.mesh.rotation.x = 0;
+  }
+
+  update(input) {
+    if (this._isJumping) {
+      // Move arms upwards and crouch the legs while jumping
+      const armRotationSpeed = 0.05;
+      const legRotationSpeed = 0.05;
+
+      if (this._stateLegs === 0) {
+        if (this._targetDict.Upper_Arm_dx.mesh.rotation.z > 0.7) {
+          this._stateLegs = 1;
+        } else {
+          this._targetDict.Upper_Arm_dx.mesh.rotation.z += armRotationSpeed;
+          this._targetDict.Upper_Arm_sx.mesh.rotation.z -= armRotationSpeed;
+          this._targetDict.Lower_Arm_dx.mesh.rotation.z += armRotationSpeed;
+          this._targetDict.Lower_Arm_sx.mesh.rotation.z -= armRotationSpeed;
+          this._targetDict.Lower_Leg_sx.mesh.rotation.x += legRotationSpeed;
+          this._targetDict.Lower_Leg_dx.mesh.rotation.x += legRotationSpeed;
+          this._targetDict.Trunk.mesh.rotation.x += 0.005;
+        }
+      } else {
+        if (
+          this._targetDict.Upper_Arm_dx.mesh.rotation.z <= 0.1 &&
+          this._targetDict.Lower_Leg_sx.mesh.rotation.x <= 0 &&
+          this._targetDict.Lower_Leg_dx.mesh.rotation.x >= 0
+        ) {
+          this._isJumping = false;
+          this._parent.setState('idle');
+        } else {
+          this._targetDict.Upper_Arm_dx.mesh.rotation.z -= armRotationSpeed;
+          this._targetDict.Upper_Arm_sx.mesh.rotation.z += armRotationSpeed;
+          this._targetDict.Lower_Arm_dx.mesh.rotation.z -= armRotationSpeed;
+          this._targetDict.Lower_Arm_sx.mesh.rotation.z += armRotationSpeed;
+          this._targetDict.Lower_Leg_sx.mesh.rotation.x -= legRotationSpeed;
+          this._targetDict.Lower_Leg_dx.mesh.rotation.x += legRotationSpeed;
+          this._targetDict.Trunk.mesh.rotation.x -= 0.005;
+        }
+      }
     }
-    enter() {
-    }
-    update() {
-      this._parent.setState("walk");
-    }
-  
+  }
 }
 
 class RunState extends State {
@@ -231,25 +273,25 @@ class RunState extends State {
     this._stateArms = 0;
     }
     enter(){
-      this._targetDict.Lower_Arm_dx.mesh.rotation.z = 0.6;
-      this._targetDict.Lower_Arm_sx.mesh.rotation.z = -0.6;
+        this._targetDict.Lower_Arm_dx.mesh.rotation.z = 0.6;
+        this._targetDict.Lower_Arm_sx.mesh.rotation.z = -0.6;
     }
     update(input) {
-      if (input._keys.forward || input._keys.backward || input._keys.left || input._keys.right || input._keys.space) {
+      if (input._keys.forward || input._keys.backward || input._keys.left || input._keys.right) {
         if (!input._keys.shift) {
-            this._parent.setState('walk');
-            return;
-        }
-        if(input._keys.space){
-            this._parent.setState('jump');
-            return;
+          this._parent.setState('walk');
+          return;
+      }
+        if (input._keys.space) {
+          this._parent.setState('jump');
+          return;
         }
     } else {
         this._parent.setState('idle');
         return;
     }
   
-    var speed = 0.08; // Increase speed for faster running animation
+    var speed = 0.08; 
     var angle_leg = Math.PI / 4; // 45 degrees for larger leg movements
 
     switch (this._stateLegs) {
@@ -342,7 +384,7 @@ class ViewState extends State {
     //INITIAL POSITION OF THE CHARACTER
     this._targetDict.Shoulder_dx.mesh.rotation.y =-1.0;
     this._targetDict.Shoulder_sx.mesh.rotation.y = 1.0;
-    this._targetDict.trunk.mesh.rotation.y = Math.PI;
+    this._targetDict.Trunk.mesh.rotation.y = Math.PI;
     //this._targetDict.trunk1.mesh.rotation.y +=0.1;
     //this._targetDict.trunk2.mesh.rotation.y +=0.1;
   }
