@@ -36,7 +36,7 @@ scene.add( light );
 //light2.castShadow = true; 
 //scene.add( light2 );
 
-var check, map, cab, box, tree, clock, truck, chair, coach, can, fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, camera_obj, guitar;
+var check, map, cab, box, tree, clock, truck, chair, coach, can, fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, camera_obj, guitar, skate;
 
 const loader = new GLTFLoader();
 loader.load( 'models/scene1/lowpoly_city.glb', function ( gltf ) {
@@ -207,6 +207,18 @@ loaderguitar.load('models/obstacles/acoustic_guitar.glb', function(gltf){
     
     scene.add(guitar);
 })
+
+const loaderskate = new GLTFLoader();
+loaderskate.load('models/obstacles/skateboard.glb', function(gltf){
+    skate= gltf.scene;
+    skate.scale.set(4.5,4.5,4.5);
+    skate.position.set(-7,14.8,-6.5);
+    skate.rotation.y = 0;
+    
+    scene.add(skate);
+})
+
+
 
 
 //controls.target = check;
