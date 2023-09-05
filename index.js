@@ -2,6 +2,7 @@ import * as THREE from "https://threejsfundamentals.org/threejs/resources/threej
 import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js';
 
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 10000 );
@@ -25,7 +26,17 @@ camera.position.x = -5;
 //camera.lookAt(new THREE.Vector3(0,0,0));
 controls.update();
 
-var check, map, cab, box, tree, clock, truck, chair, coach, can, fridge, wardrobe, table, train, tv, woodTv, vCab, gCab;
+const light = new THREE.HemisphereLight( 0xf6f6f6, 1 );
+light.position.set( 0, 10, 0 );
+//light.castShadow = true;
+scene.add( light );
+
+//const light2 = new THREE.AmbientLight( 0xffffff , 0.5 );
+//light2.position.set(0,1,0);
+//light2.castShadow = true; 
+//scene.add( light2 );
+
+var check, map, cab, box, tree, clock, truck, chair, coach, can, fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, camera_obj, guitar;
 
 const loader = new GLTFLoader();
 loader.load( 'models/scene1/lowpoly_city.glb', function ( gltf ) {
@@ -165,12 +176,43 @@ loaderVcabinet.load('models/obstacles/vintage_cabinet.glb', function(gltf){
     scene.add(vCab);
 })
 
+
+//////////////////////////////////////////////////////////
+
+const loaderBarrel = new GLTFLoader();
+loaderBarrel.load('models/obstacles/beer_barrel.glb', function(gltf){
+    barrel= gltf.scene;
+    barrel.scale.set(2.6,2.6,2.6);
+    barrel.position.set(-3.5,11,0);
+    barrel.rotation.y = 5;
+    scene.add(barrel);
+})
+
+const loadercamera = new GLTFLoader();
+loadercamera.load('models/obstacles/camera.glb', function(gltf){
+    camera_obj= gltf.scene;
+    camera_obj.scale.set(0.008,0.008,0.008);
+    camera_obj.position.set(-6,11.6,-1);
+    camera_obj.receiveShadow = true;
+    
+    scene.add(camera_obj);
+})
+
+const loaderguitar = new GLTFLoader();
+loaderguitar.load('models/obstacles/acoustic_guitar.glb', function(gltf){
+    guitar= gltf.scene;
+    guitar.scale.set(4.5,4.5,4.5);
+    guitar.position.set(-6,13.8,-4);
+    guitar.rotation.y = 5;
+    
+    scene.add(guitar);
+})
+
+
 //controls.target = check;
 
-const light = new THREE.HemisphereLight( 0xf6f6f6, 1 );
-light.position.set( 1, 1, 1 );
-//light.castShadow = true;
-scene.add( light );
+
+
 
 function animate() {
 	requestAnimationFrame( animate );
