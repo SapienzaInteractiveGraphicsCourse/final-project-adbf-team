@@ -36,7 +36,9 @@ scene.add( light );
 //light2.castShadow = true; 
 //scene.add( light2 );
 
-var check, map, cab, box, tree, clock, truck, chair, coach, can, fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, camera_obj, guitar, skate;
+var check, map, cab, box, tree, clock, truck, chair, coach, can, 
+fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, 
+camera_obj, guitar, skate, pan, plane, platform, final_check, magic_cube;
 
 const loader = new GLTFLoader();
 loader.load( 'models/scene1/lowpoly_city.glb', function ( gltf ) {
@@ -183,8 +185,8 @@ const loaderBarrel = new GLTFLoader();
 loaderBarrel.load('models/obstacles/beer_barrel.glb', function(gltf){
     barrel= gltf.scene;
     barrel.scale.set(2.6,2.6,2.6);
-    barrel.position.set(-3.5,11,0);
-    barrel.rotation.y = 5;
+    barrel.position.set(-2,11,3);
+    barrel.rotation.y = 10;
     scene.add(barrel);
 })
 
@@ -192,7 +194,7 @@ const loadercamera = new GLTFLoader();
 loadercamera.load('models/obstacles/camera.glb', function(gltf){
     camera_obj= gltf.scene;
     camera_obj.scale.set(0.008,0.008,0.008);
-    camera_obj.position.set(-6,11.6,-1);
+    camera_obj.position.set(-4,11.6,4);
     camera_obj.receiveShadow = true;
     
     scene.add(camera_obj);
@@ -202,8 +204,8 @@ const loaderguitar = new GLTFLoader();
 loaderguitar.load('models/obstacles/acoustic_guitar.glb', function(gltf){
     guitar= gltf.scene;
     guitar.scale.set(4.5,4.5,4.5);
-    guitar.position.set(-6,13.8,-4);
-    guitar.rotation.y = 5;
+    guitar.position.set(-6,13.8,4);
+    guitar.rotation.y = 0;
     
     scene.add(guitar);
 })
@@ -212,16 +214,61 @@ const loaderskate = new GLTFLoader();
 loaderskate.load('models/obstacles/skateboard.glb', function(gltf){
     skate= gltf.scene;
     skate.scale.set(4.5,4.5,4.5);
-    skate.position.set(-7,14.8,-6.5);
-    skate.rotation.y = 0;
+    skate.position.set(-8,14.4,3.5);
+    skate.rotation.y = 70;
     
     scene.add(skate);
 })
 
+const loaderpan = new GLTFLoader();
+loaderpan.load('models/obstacles/old_frying_pan.glb', function(gltf){
+    pan= gltf.scene;
+    pan.scale.set(0.008,0.008,0.008);
+    pan.position.set(-10.3,15.2,2.8);
+    pan.rotation.y = 20;
+    scene.add(pan);
+})
 
+const loaderplane = new GLTFLoader();
+loaderplane.load('models/obstacles/gothabomber_stylised_plane.glb', function(gltf){
+    plane= gltf.scene;
+    plane.scale.set(0.02,0.02,0.02);
+    plane.position.set(-10.3,15.2,-3);
+    plane.rotation.y = 210;
+    scene.add(plane);
+})
+
+const loaderplatform = new GLTFLoader();
+loaderplatform.load('models/obstacles/platform_trolley.glb', function(gltf){
+    platform= gltf.scene;
+    platform.scale.set(0.02,0.02,0.02);
+    platform.position.set(-12,17,-7);
+    platform.rotation.y = 0;
+    scene.add(platform);
+})
+
+const loadermagic_cube = new GLTFLoader();
+loadermagic_cube.load('models/obstacles/magic_cube.glb', function(gltf){
+    magic_cube= gltf.scene;
+    magic_cube.scale.set(7.5,7.5,7.5);
+    magic_cube.position.set(-5,17,-1);
+    scene.add(magic_cube);
+})
 
 
 //controls.target = check;
+
+const loaderfinal_check = new GLTFLoader();
+loaderfinal_check.load('models/checkpoint/round_platform.glb', function(gltf){
+    final_check= gltf.scene;
+    final_check.scale.set(1,1,1);
+    final_check.position.set(8,20,-10);
+    final_check.rotation.y = 210;
+    scene.add(final_check);
+})
+
+
+
 
 
 
