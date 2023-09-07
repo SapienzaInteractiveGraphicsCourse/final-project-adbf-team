@@ -38,7 +38,8 @@ scene.add( light );
 
 var check, map, cab, box, tree, clock, truck, chair, coach, can, 
 fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, 
-camera_obj, guitar, skate, pan, plane, platform, final_check, magic_cube;
+camera_obj, guitar, skate, pan, plane, platform, final_check, magic_cube,
+bowling_pin, orange, wood, hat, book, stone, stone2, flag;
 
 const loader = new GLTFLoader();
 loader.load( 'models/scene1/lowpoly_city.glb', function ( gltf ) {
@@ -250,9 +251,74 @@ loaderplatform.load('models/obstacles/platform_trolley.glb', function(gltf){
 const loadermagic_cube = new GLTFLoader();
 loadermagic_cube.load('models/obstacles/magic_cube.glb', function(gltf){
     magic_cube= gltf.scene;
-    magic_cube.scale.set(7.5,7.5,7.5);
+    magic_cube.scale.set(8.5,8.5,8.5);
     magic_cube.position.set(-5,17,-1);
     scene.add(magic_cube);
+})
+
+const loaderbowling_pin = new GLTFLoader();
+loaderbowling_pin.load('models/obstacles/bowling_pin.glb', function(gltf){
+    bowling_pin= gltf.scene;
+    bowling_pin.scale.set(10.5,10.5,10.5);
+    bowling_pin.position.set(-2,17.5,-1);
+    bowling_pin.rotation.x = 90;
+    bowling_pin.rotation.z = 180;
+
+    scene.add(bowling_pin);
+})
+
+const loaderorange = new GLTFLoader();
+loaderorange.load('models/obstacles/orange_half.glb', function(gltf){
+    orange= gltf.scene;
+    orange.scale.set(1.2,1.2,1.2);
+    orange.position.set(3.2,19,-3);
+    scene.add(orange);
+})
+
+const loaderwood = new GLTFLoader();
+loaderwood.load('models/obstacles/wood.glb', function(gltf){
+    wood= gltf.scene;
+    wood.scale.set(7.2,7.2,7.2);
+    wood.position.set(-9,17.8,-8);
+    wood.rotation.y = 5;
+    
+    scene.add(wood);
+})
+
+const loaderhat = new GLTFLoader();
+loaderhat.load('models/obstacles/steampunk_hat.glb', function(gltf){
+    hat= gltf.scene;
+    hat.scale.set(6.2,6.2,6.2);
+    hat.position.set(-5,18,-10);
+    
+    scene.add(hat);
+})
+
+const loaderbook = new GLTFLoader();
+loaderbook.load('models/obstacles/book.glb', function(gltf){
+    book= gltf.scene;
+    book.scale.set(100.2,100.2,100.2);
+    book.position.set(-0.5,19,-11);
+    
+    scene.add(book);
+})
+
+const loaderstone = new GLTFLoader();
+loaderstone.load('models/obstacles/stone.glb', function(gltf){
+    stone= gltf.scene;
+    stone.scale.set(0.008,0.008,0.008);
+    stone.position.set(3,19.5,-12);
+    
+    scene.add(stone);
+})
+
+const loaderstone2 = new GLTFLoader();
+loaderstone2.load('models/obstacles/stone.glb', function(gltf){
+    stone2= gltf.scene;
+    stone2.scale.set(0.008,0.008,0.008);
+    stone2.position.set(6.5,19.5,-4.3);
+    
+    scene.add(stone2);
 })
 
 
@@ -267,7 +333,22 @@ loaderfinal_check.load('models/checkpoint/round_platform.glb', function(gltf){
     scene.add(final_check);
 })
 
+const loaderflag = new GLTFLoader();
+loaderflag.load('models/checkpoint/checkered_racing_flag.glb', function(gltf){
+    flag= gltf.scene;
+   
+    flag.scale.set(1,1,1);
+    flag.position.set(8,23,-10);
+    
+    scene.add(flag);
 
+    const animations = gltf.animations;
+    if (animations && animations.length) {
+    const mixer = new THREE.AnimationMixer(model);
+    mixer.clipAction(animations[0]).play();
+    }
+    
+})
 
 
 
