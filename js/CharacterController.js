@@ -18,7 +18,7 @@ export class CharacterController {
         this._decceleration = new THREE.Vector3(-0.5, -0.005, -0.3);
         this._acceleration = new THREE.Vector3(0.07, 0.001, 0.02);
         this._velocity = new THREE.Vector3(0, 0, 0);
-        this._jumpVelocity = 5;
+        this._jumpVelocity = 15;
         //this._canJump=true;
         //this._jumping = false;
         this._stateMachine = new CharacterFSM(this._target);
@@ -86,22 +86,34 @@ export class CharacterController {
         //TIMER
         //Right now, infinite jump to build
 
-        //if (this._input._keys.space && this._canJump && !this._jumping) {
-        if (this._input._keys.space && this._canJump ) {
-            this._body.velocity.y = this._jumpVelocity;
-            this._jumping = true;
-            this._lastJumpTime = Date.now(); // Record the time of the jump
+        if(this._input._keys.fly == false){
+        if (this._input._keys.space && this._canJump && !this._jumping) {
+            if (this._input._keys.space && this._canJump ) {
+                this._body.velocity.y = this._jumpVelocity;
+                this._jumping = true;
+                this._lastJumpTime = Date.now(); // Record the time of the jump
+            }
         }
-        //
-        //if (Date.now() - this._lastJumpTime >= 1500) { // 3000 milliseconds = 3 seconds
-        //        this._canJump = true;
-        //        this._jumping = false;
-        //}
-        //
-        //if (this._jumping) {
-        //    // additional gravity
-        //    this._body.velocity.y -= 0.025 * this._jumpVelocity;
-        //}
+        
+        if (Date.now() - this._lastJumpTime >= 1500) { 
+                this._canJump = true;
+                this._jumping = false;
+        }
+        
+        if (this._jumping) {
+            // additional gravity
+            this._body.velocity.y -= 0.025 * this._jumpVelocity;
+        }
+        }
+        else if(this._input._keys.fly == true){
+            if (this._input._keys.space && this._canJump) {
+                if (this._input._keys.space && this._canJump ) {
+                    this._body.velocity.y = 5;
+                    //this._jumping = true;
+                    //this._lastJumpTime = Date.now(); // Record the time of the jump
+                }
+            }
+        }
     
         //SALTO NORMALE
 
@@ -166,7 +178,7 @@ class CharacterControllerInput { //resposible for keyboard and other controller 
             right: false,
             space: false,
             shift: false,
-            view: false
+            fly: false,
         };
         document.addEventListener('keydown', (e)=>this._onKeyDown(e), false);
         document.addEventListener('keyup', (e)=>this._onKeyUp(e), false); 
@@ -194,6 +206,9 @@ class CharacterControllerInput { //resposible for keyboard and other controller 
                 break;
             case 86: //v
                 this._keys.view = true;    
+            case 48: //0
+            this._keys.fly = !this._keys.fly;
+                break;
         }
     }
         
@@ -217,8 +232,6 @@ class CharacterControllerInput { //resposible for keyboard and other controller 
             case 16: // SHIFT
                 this._keys.shift = false;
                 break;
-            case 86: //v
-                this._keys.view = false;
         }
     }
 };

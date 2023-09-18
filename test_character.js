@@ -154,29 +154,35 @@ console.log("Clicked Position (Cannon.js):", point.x, point.y, point.z);
 
 //MODELS
 let selectedCharacter = '';
-function loadCharacter(characterType) {
-    // Clear existing characters or perform any cleanup if needed
-    selectedCharacter = characterType;
-    // Load the selected character
-    if (characterType === 'girl') {
-      _LoadModels('./models/girl/scene.gltf', 0.5, 0, 1, 0);
-    } else if (characterType === 'firefighter') {
-      _LoadModels('./models/firefighter/scene.gltf', 0.2, 2, 1, 0);
-    }
-  }
+
+//CHOOSE PLAYER
+//function loadCharacter(characterType) {
+//    // Clear existing characters or perform any cleanup if needed
+//    selectedCharacter = characterType;
+//    // Load the selected character
+//    if (characterType === 'girl') {
+//      _LoadModels('./models/girl/scene.gltf', 0.5, -5, -0.5, -12);
+//    } else if (characterType === 'firefighter') {
+//      _LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -0.5, -12);
+//    }
+//  }
+///------------------------------------------------------
   
-  // Add event listeners for character selection, e.g., from a menu
-  document.getElementById('selectGirl').addEventListener('click', function () {
-    loadCharacter('girl');
-  });
-  
-  document.getElementById('selectFirefighter').addEventListener('click', function () {
-    loadCharacter('firefighter');
-  });
+  // Event listeners for character selection
+  //document.getElementById('selectGirl').addEventListener('click', function () {
+  //  loadCharacter('girl');
+  //});
+  //
+  //document.getElementById('selectFirefighter').addEventListener('click', function () {
+  //  loadCharacter('firefighter');
+  //});
+
+  //Demo: mette sempre pompiere
+  _LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -0.5, -12);
+  selectedCharacter = 'firefighter';
   export { selectedCharacter };
 //_LoadModels('./models/spaceboy/scene.gltf',3,0,1,0);
-//_LoadModels('./models/girl/scene.gltf',0.5  ,0,1,0);
-//_LoadModels('./models/firefighter/scene.gltf', 0.2, 2, 1, 0);
+
 var check, map, cab, box, tree, clock, truck, chair, coach, can, 
 fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, 
 camera_obj, guitar, skate, pan, plane, platform, final_check, magic_cube,
@@ -425,14 +431,14 @@ loaderFridge.load('models/obstacles/stylized_fridge.glb', function(gltf){
     fridge= gltf.scene;
     fridge.scale.set(0.4,0.4,0.4);
     fridge.position.set(3,3.0,-7);
-    fridge.rotation.x = 30;
-    fridge.rotation.y = 15.5;
+    fridge.rotation.x = -Math.PI /2;
+    fridge.rotation.y = Math.PI;
     scene.add(fridge);
 
     const boundingBox = new THREE.Box3().setFromObject(fridge);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const fridgeShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.35, dimensions.y*0.6, dimensions.z*1.1));
+    const fridgeShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.35, dimensions.y*0.6, dimensions.z*0.5));
 
     const fridgeMaterial = new CANNON.Material();
 
@@ -442,11 +448,13 @@ loaderFridge.load('models/obstacles/stylized_fridge.glb', function(gltf){
         material: fridgeMaterial,
     });
 
-    fridgeBody.position = new CANNON.Vec3(3.3,1.4,-8.1);
+    fridgeBody.position = new CANNON.Vec3(3,2.68,-7.9);
 
     const rotationQuaternion = new CANNON.Quaternion();
-    const eulerX = 30.0;
-    const eulerY = 15.5;
+    //const eulerX = 30.0;
+    //const eulerY = 15.5;
+    const eulerX = 0;
+    const eulerY = Math.PI;
     rotationQuaternion.setFromEuler(eulerX, eulerY, 0);
     fridgeBody.quaternion.copy(rotationQuaternion);
 
@@ -482,25 +490,25 @@ loaderTv.load('models/obstacles/tv_sony.glb', function(gltf){
     tv= gltf.scene;
     tv.scale.set(2,2,2);
     tv.position.set(3,4.5,-3);
-    tv.rotation.x = 5.8;
-    tv.rotation.y = 20;
+    //tv.rotation.x = 5.8;
+    tv.rotation.y = 16;
     scene.add(tv);
 
     const boundingBox = new THREE.Box3().setFromObject(table);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const tvShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.5, dimensions.y*0.5, dimensions.z*0.6));
+    const tvShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.7, dimensions.y*0.5, dimensions.z*0.7));
 
     const tvBody = new CANNON.Body({
         mass: 0, // Set mass to 0 to make it static
         shape: tvShape,
     });
 
-    tvBody.position = new CANNON.Vec3(3,4.58,-3.2);
+    tvBody.position = new CANNON.Vec3(3.2,4.58,-3.0);
     const rotationQuaternion = new CANNON.Quaternion();
-    const eulerX = 5.8;
-    const eulerY = 20;
-    rotationQuaternion.setFromEuler(eulerX, eulerY, 0);
+    //const eulerX = 5.8;
+    const eulerY = 16;
+    rotationQuaternion.setFromEuler(0, eulerY, 0);
     tvBody.quaternion.copy(rotationQuaternion);
 
     world.addBody(tvBody);
@@ -512,25 +520,26 @@ loaderVcabinet.load('models/obstacles/vintage_cabinet.glb', function(gltf){
     vCab= gltf.scene;
     vCab.scale.set(1.5,1.5,1.5);
     vCab.position.set(2,5.8,-0.2);
-    vCab.rotation.x = 5.8;
+    //vCab.rotation.x = 5.8;
     vCab.rotation.y = 10;
+    vCab.rotation.z=0.2;
     scene.add(vCab);
 
     const boundingBox = new THREE.Box3().setFromObject(vCab);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const VCabShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.5, dimensions.y*0.2, dimensions.z*0.1));
+    const VCabShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.5, dimensions.y*0.5, dimensions.z*0.08));
 
     const VCabBody = new CANNON.Body({
         mass: 0, // Set mass to 0 to make it static
         shape: VCabShape,
     });
 
-    VCabBody.position = new CANNON.Vec3(2,5.95,-0.6);
+    VCabBody.position = new CANNON.Vec3(2,5.7,-0.2);
     const rotationQuaternion = new CANNON.Quaternion();
-    const eulerX = 5.8;
+    const eulerZ = 0.2;
     const eulerY = 10;
-    rotationQuaternion.setFromEuler(eulerX, eulerY, 0);
+    rotationQuaternion.setFromEuler(0, eulerY, eulerZ);
     VCabBody.quaternion.copy(rotationQuaternion);
 
     world.addBody(VCabBody);
@@ -541,21 +550,21 @@ const loaderCan = new GLTFLoader();
 loaderCan.load('models/obstacles/living_garbage_can.glb', function(gltf){
     can= gltf.scene;
     can.scale.set(0.3,0.3,0.3);
-    can.position.set(-1.2,7.6,1);
+    can.position.set(-1.2,6.7,2.45);
     can.rotation.x = 14;
     scene.add(can);
 
     const boundingBox = new THREE.Box3().setFromObject(can);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const canShape = new CANNON.Cylinder(dimensions.x*0.5, dimensions.x*0.5, 1.3);
+    const canShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.5, dimensions.y*0.5, dimensions.z *0.5));
 
     const canBody = new CANNON.Body({
         mass: 0, // Set mass to 0 to make it static
         shape: canShape,
     });
 
-    canBody.position = new CANNON.Vec3(-1.2,7.4,0.45);
+    canBody.position = new CANNON.Vec3(-1.2,6.2,2.0);
     const rotationQuaternion = new CANNON.Quaternion();
     const eulerX = 14;
     const eulerY = 0;
@@ -571,25 +580,25 @@ const loaderWoodTv = new GLTFLoader();
 loaderWoodTv.load('models/obstacles/tv_stand_wood.glb', function(gltf){
     woodTv= gltf.scene;
     woodTv.scale.set(1.2,1.2,1.2);
-    woodTv.position.set(-1.5,8,3.7);
-    woodTv.rotation.x = 12;
-    woodTv.rotation.y = 10;
+    woodTv.position.set(-0.5,7.1,5.0);
+    woodTv.rotation.x = -0.2;
+    woodTv.rotation.y = 0.25;
     scene.add(woodTv);
 
     const boundingBox = new THREE.Box3().setFromObject(woodTv);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const woodTvShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.4, dimensions.y*0.5, dimensions.z*0.6));
+    const woodTvShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.4, dimensions.y*0.5, dimensions.z*0.46));
 
     const woodTvBody = new CANNON.Body({
         mass: 0, // Set mass to 0 to make it static
         shape: woodTvShape,
     });
 
-    woodTvBody.position = new CANNON.Vec3(-1.5,7.3,4.0);
+    woodTvBody.position = new CANNON.Vec3(-0.5,6.8,4.95);
     const rotationQuaternion = new CANNON.Quaternion();
-    const eulerX = 12;
-    const eulerY = 10;
+    const eulerX = -0.2;
+    const eulerY = 0.25;
     rotationQuaternion.setFromEuler(eulerX, eulerY, 0);
     woodTvBody.quaternion.copy(rotationQuaternion);
 
@@ -601,7 +610,7 @@ const loaderTree = new GLTFLoader();
 loaderTree.load('models/obstacles/cartoon_fallen_tree.glb', function(gltf){
     tree= gltf.scene;
     tree.scale.set(0.005,0.005,0.005);
-    tree.position.set(0.2,8.5,5);
+    tree.position.set(0.2,8.3,6.8);
     //tree.rotation.y = Math.PI/180;
     scene.add(tree);
 
@@ -615,10 +624,99 @@ loaderTree.load('models/obstacles/cartoon_fallen_tree.glb', function(gltf){
         shape: treeShape,
     });
 
-    treeBody.position = new CANNON.Vec3(1.7,8.3,4.2);
+    treeBody.position = new CANNON.Vec3(1.7,8.0,6.0);
 
     world.addBody(treeBody);
 });
+
+//Train
+const loaderTrain = new GLTFLoader();
+    loaderTrain.load('models/obstacles/train_carriage.glb', function(gltf){
+        train = gltf.scene;
+        train.scale.set(0.015,0.015,0.015);
+        train.position.set(3.5,8.1,0.3);
+        train.rotation.y = Math.PI/2 - Math.PI/8;
+        scene.add(train);
+
+        const boundingBox = new THREE.Box3().setFromObject(train);
+        const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+        const trainShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.15, dimensions.y*0.5, dimensions.z*0.35));
+
+        const trainBody = new CANNON.Body({
+            mass: 0, // Set mass to 0 to make it static
+            shape: trainShape,
+        });
+
+        trainBody.position = new CANNON.Vec3(2.5,8.35,2.5);
+        const rotationQuaternion = new CANNON.Quaternion();
+        const eulerY = 0 - Math.PI/10;
+        rotationQuaternion.setFromEuler(0, eulerY, 0);
+        trainBody.quaternion.copy(rotationQuaternion);
+
+        world.addBody(trainBody);
+    });
+
+    //CheckPoint
+    const loaderCheck = new GLTFLoader();
+    loaderCheck.load('models/checkpoint/diorama.glb', function(gltf){
+        check= gltf.scene;
+        check.scale.set(0.6,0.6,0.6);
+        check.position.set(5,9,-2);
+        scene.add(check);
+    
+    const boundingBox = new THREE.Box3().setFromObject(check);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+    const checkShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.4, dimensions.y*0.05, dimensions.z*0.4));
+    const checkBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: checkShape,
+    });
+    checkBody.position = new CANNON.Vec3(5,8.9,-2);
+    //const rotationQuaternion = new CANNON.Quaternion();
+    //rotationQuaternion.setFromEuler(0, Math.PI, 0);
+    //checkBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(checkBody);
+
+    //
+    const barrierShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.4, dimensions.y*0.1, dimensions.z*0.4));
+    const barrierBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: barrierShape,
+    });
+    barrierBody.position = new CANNON.Vec3(5,10.0,-3.5);
+    const rotationQuaternion = new CANNON.Quaternion();
+    const eulerX = Math.PI /2;
+    rotationQuaternion.setFromEuler(eulerX, 0, 0);
+    barrierBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(barrierBody);
+    //
+    const barrier2Shape = new CANNON.Box(new CANNON.Vec3(0.3, 0.1, 0.3));
+    const barrier2Body = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: barrier2Shape,
+    });
+    barrier2Body.position = new CANNON.Vec3(5,9.8,-2.3);
+    const rotationQuaternion2 = new CANNON.Quaternion();
+    const eulerX2 = Math.PI /2;
+    rotationQuaternion2.setFromEuler(eulerX2, 0, 0);
+    barrier2Body.quaternion.copy(rotationQuaternion2);
+
+    world.addBody(barrier2Body);
+    //
+    const barrier3Shape = new CANNON.Box(new CANNON.Vec3(0.6, 0.1, 0.6));
+    const barrier3Body = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: barrier3Shape,
+    });
+    barrier3Body.position = new CANNON.Vec3(5,9.3,-2);
+    world.addBody(barrier3Body);
+    //
+
+    });
+
 
 /////////BODY//////////////////
 
@@ -641,7 +739,7 @@ function _LoadModels(path,scaleValue,position_x,position_y,position_z) {
 
             meshes_character.position.set(position_x,position_y,position_z);
             meshes_character.scale.setScalar(scaleValue);
-            meshes_character.rotation.set(0, Math.PI, 0);
+            meshes_character.rotation.set(0, 0, 0);
             scene.add(meshes_character);
 
             character_body.position.set(position_x,position_y,position_z);
