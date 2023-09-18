@@ -153,9 +153,30 @@ console.log("Clicked Position (Cannon.js):", point.x, point.y, point.z);
 /*------------------------------------------END TEST ENVIRONMENT-----------------------------------------------*/
 
 //MODELS
+let selectedCharacter = '';
+function loadCharacter(characterType) {
+    // Clear existing characters or perform any cleanup if needed
+    selectedCharacter = characterType;
+    // Load the selected character
+    if (characterType === 'girl') {
+      _LoadModels('./models/girl/scene.gltf', 0.5, 0, 1, 0);
+    } else if (characterType === 'firefighter') {
+      _LoadModels('./models/firefighter/scene.gltf', 0.2, 2, 1, 0);
+    }
+  }
+  
+  // Add event listeners for character selection, e.g., from a menu
+  document.getElementById('selectGirl').addEventListener('click', function () {
+    loadCharacter('girl');
+  });
+  
+  document.getElementById('selectFirefighter').addEventListener('click', function () {
+    loadCharacter('firefighter');
+  });
+  export { selectedCharacter };
 //_LoadModels('./models/spaceboy/scene.gltf',3,0,1,0);
-//_LoadModels('./models/girl/scene.gltf',3,0,1,0);
-_LoadModels('./models/firefighter/scene.gltf', 0.2, 2, 1, 0);
+//_LoadModels('./models/girl/scene.gltf',0.5  ,0,1,0);
+//_LoadModels('./models/firefighter/scene.gltf', 0.2, 2, 1, 0);
 var check, map, cab, box, tree, clock, truck, chair, coach, can, 
 fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, 
 camera_obj, guitar, skate, pan, plane, platform, final_check, magic_cube,

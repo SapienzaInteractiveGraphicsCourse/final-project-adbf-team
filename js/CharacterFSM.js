@@ -1,4 +1,5 @@
 import { FiniteStateMachine , State } from './FiniteStateMachine.js';
+import { selectedCharacter } from '../test_character.js';
 
 const PI_6 = Math.PI / 6;
 
@@ -33,10 +34,6 @@ export class CharacterFSM extends FiniteStateMachine {
           Lower_Leg_dx: { name: "Forelegr_053", mesh: null},
           Ankle_dx:      { name: "Ankler_054", mesh: null},
           Foot_dx:      { name: "Footr_055", mesh: null},
-
-          //trunk: { name: "Spine1_02", mesh: null},
-          //trunk1: { name: "Spine2_03", mesh: null},
-          //trunk2: { name: "Spine3_00", mesh: null},
    
       };
 
@@ -48,10 +45,10 @@ export class CharacterFSM extends FiniteStateMachine {
       this._addState('walk', WalkState);
       this._addState('run', RunState);
       this._addState('jump', JumpState);
-      this._addState('view',ViewState);
 
     }
     _setValues() {
+      if(selectedCharacter === 'firefighter'){
       this._targetDict.Head.mesh.rotation.x = -3.0;
       this._targetDict.Head.mesh.rotation.z = Math.PI;
       this._targetDict.Trunk.mesh.rotation.x = 0.01004335843026638;
@@ -75,6 +72,32 @@ export class CharacterFSM extends FiniteStateMachine {
       this._targetDict.Ankle_dx.mesh.rotation.x = 0.005164777860045433;
       this._targetDict.Foot_sx.mesh.rotation.x = 0.226236954331398;
       this._targetDict.Foot_dx.mesh.rotation.x = 0.22623677551746368;
+      }
+      else if(selectedCharacter === 'girl'){
+      this._targetDict.Head.mesh.rotation.x = 0;
+      this._targetDict.Trunk.mesh.rotation.x =0;
+
+      this._targetDict.Shoulder_dx.mesh.rotation.z = -1.3;
+      this._targetDict.Shoulder_sx.mesh.rotation.z = -1.3;
+      this._targetDict.Upper_Arm_dx.mesh.rotation.x = 0;
+      this._targetDict.Upper_Arm_sx.mesh.rotation.x = 0;
+      this._targetDict.Upper_Arm_dx.mesh.rotation.y = 0;
+      this._targetDict.Upper_Arm_sx.mesh.rotation.y = 0;
+      this._targetDict.Upper_Arm_dx.mesh.rotation.z = 0;
+      this._targetDict.Upper_Arm_sx.mesh.rotation.z = 0;
+      this._targetDict.Lower_Arm_dx.mesh.rotation.x = -1;
+      this._targetDict.Lower_Arm_sx.mesh.rotation.x = -1;
+      
+
+      this._targetDict.Upper_Leg_sx.mesh.rotation.x = 0;
+      this._targetDict.Upper_Leg_dx.mesh.rotation.x = Math.PI;
+      this._targetDict.Lower_Leg_sx.mesh.rotation.x = 0;
+      this._targetDict.Lower_Leg_dx.mesh.rotation.x = 0;
+      this._targetDict.Ankle_sx.mesh.rotation.x = 0;
+      this._targetDict.Ankle_dx.mesh.rotation.x = 0;
+      this._targetDict.Foot_sx.mesh.rotation.x = 0;
+      this._targetDict.Foot_dx.mesh.rotation.x = 0;
+      }
     }
   
 }
@@ -138,10 +161,19 @@ class WalkState extends State {
   }
 
   enter(){
-    this._targetDict.Head.mesh.rotation.x = -3.0;
-    this._targetDict.Trunk.mesh.rotation.x = 0.01004335843026638;
-    this._targetDict.Lower_Arm_dx.mesh.rotation.z = 0.2;
-    this._targetDict.Lower_Arm_sx.mesh.rotation.z = -0.2;
+    if(selectedCharacter === 'firefighter'){
+      this._targetDict.Head.mesh.rotation.x = -3.0;
+      this._targetDict.Trunk.mesh.rotation.x = 0.01004335843026638;
+      this._targetDict.Lower_Arm_dx.mesh.rotation.z = 0.2;
+      this._targetDict.Lower_Arm_sx.mesh.rotation.z = -0.2;
+    }
+    else if(selectedCharacter === 'girl'){
+      this._targetDict.Upper_Arm_dx.mesh.rotation.y = 0;
+      this._targetDict.Upper_Arm_sx.mesh.rotation.y = 0;
+      this._targetDict.Shoulder_sx.mesh.rotation.x = 0;
+      this._targetDict.Shoulder_dx.mesh.rotation.x = 0;
+      this._targetDict.Trunk.mesh.rotation.x =0;
+    }
   }
   update(input) {
     if (input._keys.forward || input._keys.backward || input._keys.left || input._keys.right ) {  
@@ -177,10 +209,16 @@ class WalkState extends State {
         this._targetDict.Ankle_sx.mesh.rotation.x -= speed;
         this._targetDict.Ankle_dx.mesh.rotation.x += speed;
 
+        if(selectedCharacter === 'firefighter'){
         // Foot movement
         this._targetDict.Foot_sx.mesh.rotation.x -= speed;
         this._targetDict.Foot_dx.mesh.rotation.x += speed;
-      
+        }
+        else if(selectedCharacter === 'girl'){
+          // Foot movement
+        this._targetDict.Foot_sx.mesh.rotation.x -= speed * 0.2;
+        this._targetDict.Foot_dx.mesh.rotation.x += speed * 0.2;
+        }
         //set arms in order to be inverted wrt. the leg
         this._stateArms = 1;
       }
@@ -202,8 +240,8 @@ class WalkState extends State {
         this._targetDict.Ankle_dx.mesh.rotation.x -= speed;
 
         // Foot movement
-        this._targetDict.Foot_sx.mesh.rotation.x += speed;
-        this._targetDict.Foot_dx.mesh.rotation.x -= speed;
+        this._targetDict.Foot_sx.mesh.rotation.x += speed * 0.2;
+        this._targetDict.Foot_dx.mesh.rotation.x -= speed * 0.2;
       
         //set arms in order to be inverted wrt. the leg
         this._stateArms = 0;
@@ -211,6 +249,7 @@ class WalkState extends State {
       break;
   }
 
+  if(selectedCharacter === 'firefighter'){
   switch (this._stateArms) {
     case 0:
       this._targetDict.Upper_Arm_dx.mesh.rotation.z -= speed;
@@ -222,6 +261,20 @@ class WalkState extends State {
       this._targetDict.Upper_Arm_sx.mesh.rotation.z += speed;
       break;  
     }
+  }
+  else if(selectedCharacter === 'girl'){
+    switch (this._stateArms) {
+      case 0:
+        this._targetDict.Upper_Arm_dx.mesh.rotation.y -= speed;
+        this._targetDict.Upper_Arm_sx.mesh.rotation.y += speed;
+        break;
+      
+      case 1:
+        this._targetDict.Upper_Arm_dx.mesh.rotation.y += speed;
+        this._targetDict.Upper_Arm_sx.mesh.rotation.y -= speed;
+        break;  
+      }
+  }
   } 
 }
 
@@ -240,7 +293,7 @@ class JumpState extends State {
     this._isJumping = 1;
     this._parent._setValues();
 
-    if(this.prevState._name != "idle"){
+    if(this.prevState._name != "idle" && selectedCharacter === 'firefighter'){
     this._targetDict.Lower_Arm_sx.mesh.rotation.z = -1.2;
     this._targetDict.Lower_Arm_dx.mesh.rotation.z = 1.2;
     this._targetDict.Upper_Leg_sx.mesh.rotation.x = 0.5;
@@ -254,6 +307,8 @@ class JumpState extends State {
 
       var jump_movement_speed = 0.06;
       if(this._isJumping == 1){
+
+if(selectedCharacter === 'firefighter'){
       switch (this._stateArms) {
           case 0:
               if (this._targetDict.Upper_Arm_dx.mesh.rotation.z >= Math.PI/3) {
@@ -262,7 +317,7 @@ class JumpState extends State {
                 if(this.prevState._name == "idle"){   //if the character was not moving, the jump is on the spot!
                   this._targetDict.Upper_Arm_sx.mesh.rotation.z -= jump_movement_speed;
                   this._targetDict.Upper_Arm_dx.mesh.rotation.z += jump_movement_speed;
-
+                  
                   this._targetDict.Upper_Leg_sx.mesh.rotation.x += jump_movement_speed;
                   this._targetDict.Upper_Leg_dx.mesh.rotation.x += jump_movement_speed;
 
@@ -323,6 +378,61 @@ class JumpState extends State {
               break;
       }
     }
+    else if(selectedCharacter === 'girl'){
+      switch (this._stateArms) {
+        case 0:
+            if (this._targetDict.Upper_Arm_dx.mesh.rotation.y < -Math.PI/3) {
+                this._stateArms = 1;
+            } else {
+              if(this.prevState._name == "idle"){   //if the character was not moving, the jump is on the spot!
+                this._targetDict.Upper_Arm_sx.mesh.rotation.y -= jump_movement_speed;
+                this._targetDict.Upper_Arm_dx.mesh.rotation.y -= jump_movement_speed;
+                
+                this._targetDict.Upper_Leg_sx.mesh.rotation.x -= jump_movement_speed;
+                this._targetDict.Upper_Leg_dx.mesh.rotation.x -= jump_movement_speed;
+
+                this._targetDict.Lower_Leg_sx.mesh.rotation.x = 1;
+                this._targetDict.Lower_Leg_dx.mesh.rotation.x = 1;
+
+              }
+              else{
+                this._targetDict.Upper_Arm_sx.mesh.rotation.y += jump_movement_speed;
+                this._targetDict.Upper_Arm_dx.mesh.rotation.y -= jump_movement_speed;
+
+                this._targetDict.Upper_Leg_sx.mesh.rotation.x -= jump_movement_speed *0.8;
+                this._targetDict.Upper_Leg_dx.mesh.rotation.x += jump_movement_speed *0.8;
+              }
+                
+            }
+            break;
+
+        case 1:
+          if (this._targetDict.Upper_Arm_dx.mesh.rotation.y >= Math.PI/7) {
+            this._isJumping = 0; // Jump animation finished
+            this._parent.setState("idle"); // Transition to idle state
+        } else {
+          if(this.prevState._name == "idle"){
+            this._targetDict.Upper_Arm_sx.mesh.rotation.y += jump_movement_speed;
+            this._targetDict.Upper_Arm_dx.mesh.rotation.y += jump_movement_speed;
+
+            this._targetDict.Upper_Leg_sx.mesh.rotation.x += jump_movement_speed;
+            this._targetDict.Upper_Leg_dx.mesh.rotation.x += jump_movement_speed;
+
+            this._targetDict.Lower_Leg_sx.mesh.rotation.x -= 0.05;
+            this._targetDict.Lower_Leg_dx.mesh.rotation.x -= 0.05;
+          }
+          else{
+          this._targetDict.Upper_Arm_sx.mesh.rotation.y -= jump_movement_speed;
+          this._targetDict.Upper_Arm_dx.mesh.rotation.y += jump_movement_speed;
+
+          this._targetDict.Upper_Leg_sx.mesh.rotation.x += jump_movement_speed *0.8;
+          this._targetDict.Upper_Leg_dx.mesh.rotation.x -= jump_movement_speed *0.8;
+          }
+        }
+            break;
+    }
+    }
+    }
       //this._parent.setState("idle");
   }
   }
@@ -334,8 +444,17 @@ class RunState extends State {
     this._stateArms = 0;
     }
     enter(){
+      if(selectedCharacter === 'firefighter'){
         this._targetDict.Lower_Arm_dx.mesh.rotation.z = 0.6;
         this._targetDict.Lower_Arm_sx.mesh.rotation.z = -0.6;
+      }
+      else if(selectedCharacter === 'girl'){
+        this._targetDict.Upper_Arm_dx.mesh.rotation.y = 0;
+        this._targetDict.Upper_Arm_sx.mesh.rotation.y = 0;
+        this._targetDict.Shoulder_sx.mesh.rotation.x = 0;
+        this._targetDict.Shoulder_dx.mesh.rotation.x = 0;
+        this._targetDict.Trunk.mesh.rotation.x =0;
+      }
     }
     update(input) {
       if (input._keys.forward || input._keys.backward || input._keys.left || input._keys.right) {
@@ -376,10 +495,15 @@ class RunState extends State {
           this._targetDict.Foot_dx.mesh.rotation.x += speed;
 
           //Head movement
+          if(selectedCharacter === 'firefighter'){
           this._targetDict.Head.mesh.rotation.x += 0.008;
-
+          
           //Body movement
           this._targetDict.Trunk.mesh.rotation.x -= 0.005;
+          }
+          if(selectedCharacter === 'girl'){
+            this._targetDict.Trunk.mesh.rotation.x -= 0.0025;
+          }
 
           // Set arms in order to be inverted with respect to the leg
           this._stateArms = 1;
@@ -405,11 +529,16 @@ class RunState extends State {
           this._targetDict.Foot_sx.mesh.rotation.x += speed;
           this._targetDict.Foot_dx.mesh.rotation.x -= speed;
 
+          if(selectedCharacter === 'firefighter'){
           //Head movement
           this._targetDict.Head.mesh.rotation.x -= 0.008;
-
+          
           //Body movement
           this._targetDict.Trunk.mesh.rotation.x += 0.005;
+          }
+          if(selectedCharacter === 'girl'){
+            this._targetDict.Trunk.mesh.rotation.x += 0.0025;
+          }
 
           // Set arms in order to be inverted with respect to the leg
           this._stateArms = 0;
@@ -417,6 +546,7 @@ class RunState extends State {
         break;
     }
 
+    if(selectedCharacter === 'firefighter'){
     switch (this._stateArms) {
       case 0:
         // When the left leg is forward, the left arm moves backward
@@ -432,24 +562,29 @@ class RunState extends State {
 
         break;
     }
+  }
+  if(selectedCharacter === 'girl'){
+    switch (this._stateArms) {
+      case 0:
+        // When the left leg is forward, the left arm moves backward
+        this._targetDict.Shoulder_sx.mesh.rotation.x -= speed * 0.2;
+        this._targetDict.Shoulder_dx.mesh.rotation.x += speed * 0.2;
+        this._targetDict.Upper_Arm_sx.mesh.rotation.y -= speed;
+        this._targetDict.Upper_Arm_dx.mesh.rotation.y += speed;
+
+        break;
+
+      case 1:
+        // When the right leg is forward, the right arm moves backward
+        this._targetDict.Shoulder_sx.mesh.rotation.x += speed * 0.2;
+        this._targetDict.Shoulder_dx.mesh.rotation.x -= speed * 0.2;
+        this._targetDict.Upper_Arm_sx.mesh.rotation.y += speed;
+        this._targetDict.Upper_Arm_dx.mesh.rotation.y -= speed;
+
+        break;
+    }
+  }
 
 }
   
 };
-
-class ViewState extends State {
-  constructor(params) {
-  super(params);
-  }
-  enter() {
-    //INITIAL POSITION OF THE CHARACTER
-    this._targetDict.Shoulder_dx.mesh.rotation.y =-1.0;
-    this._targetDict.Shoulder_sx.mesh.rotation.y = 1.0;
-    this._targetDict.Trunk.mesh.rotation.y = Math.PI;
-    //this._targetDict.trunk1.mesh.rotation.y +=0.1;
-    //this._targetDict.trunk2.mesh.rotation.y +=0.1;
-  }
-  update(input) {
-  this._parent.setState('idle');
-  }
-}
