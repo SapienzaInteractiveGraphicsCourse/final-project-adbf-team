@@ -1,10 +1,15 @@
 import * as THREE from 'https://cdn.skypack.dev/three@v0.129.0-oVPEZFilCYUpzWgJBZqM/build/three.module.js';
 import { CharacterFSM } from './CharacterFSM.js';
+// Logic.js
+import * as CannonPhysics from '../test_character.js'; // Import the Cannon.js objects
 
 
 export class CharacterController {
     constructor(params) {
         this._Init(params);
+        this._canJump = true; // Allow jumping initially
+        this._jumping = false;
+        this._lastJumpTime = 0; // Track the time of the last jump
     }
 
     _Init(params) {
@@ -13,9 +18,9 @@ export class CharacterController {
         this._decceleration = new THREE.Vector3(-0.5, -0.005, -0.3);
         this._acceleration = new THREE.Vector3(0.07, 0.001, 0.02);
         this._velocity = new THREE.Vector3(0, 0, 0);
-        this._jumpVelocity = 50;
-        this._canJump=true;
-        this._jumping = false;
+        this._jumpVelocity = 5;
+        //this._canJump=true;
+        //this._jumping = false;
         this._stateMachine = new CharacterFSM(this._target);
         this._stateMachine.setState('idle');
         this._input = new CharacterControllerInput();
@@ -41,10 +46,10 @@ export class CharacterController {
         const acc = this._acceleration.clone();
         if (this._input._keys.forward) {
             if (this._input._keys.shift) {
-                velocity.z += acc.z * 25;
+                velocity.z += acc.z * 8;
             }
             else {
-                velocity.z += acc.z*8 ;
+                velocity.z += acc.z*2 ;
             }
         }
         if (this._input._keys.backward) {
@@ -78,20 +83,41 @@ export class CharacterController {
                 _R.multiply(_Q);
             }
         }
+        //TIMER
+        //Right now, infinite jump to build
 
-        if (this._input._keys.space && this._canJump && !this._jumping) {
+        //if (this._input._keys.space && this._canJump && !this._jumping) {
+        if (this._input._keys.space && this._canJump ) {
             this._body.velocity.y = this._jumpVelocity;
-            this._jumping = true; // Set jumping state to true
-        } 
-        const groundDistance = 1.0;                                         //don't allow double jump
-        if (this._body.position.y <= groundDistance) {
-            this._canJump = true;
-            this._jumping = false; // Reset jumping state
+            this._jumping = true;
+            this._lastJumpTime = Date.now(); // Record the time of the jump
         }
-        if(this._jumping){
-              //additional gravity
-            this._body.velocity.y -= 0.025*this._jumpVelocity;       
-        }
+        //
+        //if (Date.now() - this._lastJumpTime >= 1500) { // 3000 milliseconds = 3 seconds
+        //        this._canJump = true;
+        //        this._jumping = false;
+        //}
+        //
+        //if (this._jumping) {
+        //    // additional gravity
+        //    this._body.velocity.y -= 0.025 * this._jumpVelocity;
+        //}
+    
+        //SALTO NORMALE
+
+        //if (this._input._keys.space && this._canJump && !this._jumping) {
+        //    this._body.velocity.y = this._jumpVelocity;
+        //    this._jumping = true; // Set jumping state to true
+        //} 
+        //const groundDistance = 3.0;                                         //don't allow double jump
+        //if (this._body.position.y <= groundDistance) {
+        //    this._canJump = true;
+        //    this._jumping = false; // Reset jumping state
+        //}
+        //if(this._jumping){
+        //      //additional gravity
+        //    this._body.velocity.y -= 0.025*this._jumpVelocity;       
+        //}
         if(!(this._input._keys.left||this._input._keys.right ||this._input._keys.forward|| this._input._keys.backward )){
 
                 this._body.velocity.x *= 0.1;
