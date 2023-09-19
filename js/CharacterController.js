@@ -3,6 +3,7 @@ import { CharacterFSM } from './CharacterFSM.js';
 // Logic.js
 import * as CannonPhysics from '../test_character.js'; // Import the Cannon.js objects
 
+const desiredPosition = new THREE.Vector3(-5, -0.5, -12);
 
 export class CharacterController {
     constructor(params) {
@@ -165,10 +166,12 @@ export class CharacterController {
   
 };
 
+
+
 class CharacterControllerInput { //resposible for keyboard and other controller input
     constructor() {
         this._Init();
-    }
+        }
 
     _Init(){
         this._keys = {
@@ -182,6 +185,7 @@ class CharacterControllerInput { //resposible for keyboard and other controller 
         };
         document.addEventListener('keydown', (e)=>this._onKeyDown(e), false);
         document.addEventListener('keyup', (e)=>this._onKeyUp(e), false); 
+        
     }
 
     _onKeyDown(event){

@@ -103,29 +103,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( document.documentElement.clientWidth, document.documentElement.clientHeight );
 document.body.appendChild( renderer.domElement );
 
-// Add a click event listener to the renderer
-renderer.domElement.addEventListener('click', onMouseClick, false);
 
-// Define the onMouseClick function
-function onMouseClick(event) {
-// Get the mouse click coordinates
-const mouse = new THREE.Vector2();
-mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-// Create a raycaster
-const raycaster = new THREE.Raycaster();
-raycaster.setFromCamera(mouse, camera);
-
-// Find intersections with objects in the scene
-const intersects = raycaster.intersectObjects(scene.children, true);
-
-if (intersects.length > 0) {
-// Log the Cannon.js coordinates of the clicked point
-const point = intersects[0].point;
-console.log("Clicked Position (Cannon.js):", point.x, point.y, point.z);
-}
-}
 
 
 // STAGE (Solid Plane with Soft Color)
@@ -178,10 +156,123 @@ let selectedCharacter = '';
   //});
 
   //Demo: mette sempre pompiere
-  _LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -0.5, -12);
+  _LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -1.2, -12);
   selectedCharacter = 'firefighter';
+  //selectedCharacter = 'girl';
+  //_LoadModels('./models/girl/scene.gltf', 0.5, -5, -1.2, -12);
   export { selectedCharacter };
-//_LoadModels('./models/spaceboy/scene.gltf',3,0,1,0);
+////_LoadModels('./models/spaceboy/scene.gltf',3,0,1,0);
+
+
+
+
+//Checkpoint
+//keydown event listener
+window.addEventListener('keydown', onKeyPress);
+
+// Define the onKeyPress function to handle key presses
+function onKeyPress(event) {
+  // Check if the pressed key is 'L'
+  if (event.key === 'l') {
+    // Update the character's position wrt checkpoints
+    if(firstCheckpoint && !secondCheckpoint){
+        const newPosition = new THREE.Vector3(-0.05, 3.1, -8.4);
+        character_body.position.copy(newPosition);
+        meshes_character.rotation.set(0, Math.PI/2, 0);
+    }
+    else if(secondCheckpoint){
+        const newPosition = new THREE.Vector3(4.95, 9.59, -1.6);
+        character_body.position.copy(newPosition);
+        meshes_character.rotation.set(0, Math.PI, 0);
+        }
+    else{
+    const newPosition = new THREE.Vector3(-5, -1.2, -12);
+    
+    character_body.position.copy(newPosition);
+    meshes_character.rotation.set(0, 0, 0);
+    //character_body.rotation.copy(newRotation);
+    }
+  }
+}
+//
+//First Checkpoint
+// Define the region boundaries (box) using coordinates
+const minX = -1.16; // Replace with your desired minimum X coordinate
+const maxX = 1.1;  // Replace with your desired maximum X coordinate
+const minY = 2.5;  // Replace with your desired minimum Y coordinate
+const maxY = 3.5;  // Replace with your desired maximum Y coordinate
+const minZ = -9.525; // Replace with your desired minimum Z coordinate
+const maxZ = -7.3;  // Replace with your desired maximum Z coordinate
+
+// Create a variable to track whether the character is inside the region
+var firstCheckpoint = false;
+//var geometry = new THREE.BoxGeometry(maxX - minX, maxY - minY, maxZ - minZ);
+//var material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+//var regionBox = new THREE.Mesh(geometry, material);
+//
+//// Position the region box based on your region boundaries
+//regionBox.position.set(-0.05,3.5,-8.37);
+//
+//// Add the region box to your scene
+//scene.add(regionBox);
+
+// Check for character's position relative to the region in your update/render loop
+function checkFirstCheckpoint() {
+    const characterPosition = character_body.position;
+
+    // Check if character's position is inside the region
+    if (
+        characterPosition.x >= minX &&
+        characterPosition.x <= maxX &&
+        characterPosition.y >= minY &&
+        characterPosition.y <= maxY &&
+        characterPosition.z >= minZ &&
+        characterPosition.z <= maxZ
+    ) {
+        // Character is inside the region
+        firstCheckpoint = true;
+    }
+}
+///////////////////
+
+//Second Checkpoint
+// Define the region boundaries (box) using coordinates
+const min2X = 4; // Replace with your desired minimum X coordinate
+const max2X = 6;  // Replace with your desired maximum X coordinate
+const min2Y = 8.7;  // Replace with your desired minimum Y coordinate
+const max2Y = 12;  // Replace with your desired maximum Y coordinate
+const min2Z = -3; // Replace with your desired minimum Z coordinate
+const max2Z = -0.8;  // Replace with your desired maximum Z coordinate
+
+// Create a variable to track whether the character is inside the region
+var secondCheckpoint = false;
+//var geometry = new THREE.BoxGeometry(max2X - min2X, max2Y - min2Y, max2Z - min2Z);
+//var material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+//var regionBox = new THREE.Mesh(geometry, material);
+//
+//// Position the region box based on your region boundaries
+//regionBox.position.set(5,10,-2);
+//
+//// Add the region box to your scene
+//scene.add(regionBox);
+
+// Check for character's position relative to the region in your update/render loop
+function checkSecondCheckpoint() {
+    const characterPosition = character_body.position;
+    // Check if character's position is inside the region
+    if (
+        characterPosition.x >= min2X &&
+        characterPosition.x <= max2X &&
+        characterPosition.y >= min2Y &&
+        characterPosition.y <= max2Y &&
+        characterPosition.z >= min2Z &&
+        characterPosition.z <= max2Z
+    ) {
+        // Character is inside the region
+        secondCheckpoint = true;
+    }
+}
+/////////
 
 var check, map, cab, box, tree, clock, truck, chair, coach, can, 
 fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, 
@@ -262,27 +353,27 @@ world.addBody(building_pinkBody);
 //OBJECTS
 
 //TestCube
-const cubeSize = 1; // Adjust the size as needed
-const cubeShape = new CANNON.Box(new CANNON.Vec3(cubeSize * 0.5, cubeSize * 0.5, cubeSize * 0.5));
-const cubeMaterial = new CANNON.Material();
-const cubeBody = new CANNON.Body({
-mass: 0, // Set mass to 0 to make it static
-shape: cubeShape,
-material: cubeMaterial,
-});
-const cubePosition = new CANNON.Vec3(3, 0, 0); // Adjust the Y offset as needed
-cubeBody.position.copy(cubePosition);
-world.addBody(cubeBody);
-const cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-const cubeMaterialThree = new THREE.MeshStandardMaterial({
-color: 0x000000, // Set the color to black
-roughness: 0.5,
-metalness: 0.2,
-});
-
-const cubeThree = new THREE.Mesh(cubeGeometry, cubeMaterialThree);
-cubeThree.position.copy(cubePosition); // Adjust the Y offset as needed
-scene.add(cubeThree);
+//const cubeSize = 1; // Adjust the size as needed
+//const cubeShape = new CANNON.Box(new CANNON.Vec3(cubeSize * 0.5, cubeSize * 0.5, cubeSize * 0.5));
+//const cubeMaterial = new CANNON.Material();
+//const cubeBody = new CANNON.Body({
+//mass: 0, // Set mass to 0 to make it static
+//shape: cubeShape,
+//material: cubeMaterial,
+//});
+//const cubePosition = new CANNON.Vec3(3, 0, 0); // Adjust the Y offset as needed
+//cubeBody.position.copy(cubePosition);
+//world.addBody(cubeBody);
+//const cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+//const cubeMaterialThree = new THREE.MeshStandardMaterial({
+//color: 0x000000, // Set the color to black
+//roughness: 0.5,
+//metalness: 0.2,
+//});
+//
+//const cubeThree = new THREE.Mesh(cubeGeometry, cubeMaterialThree);
+//cubeThree.position.copy(cubePosition); // Adjust the Y offset as needed
+//scene.add(cubeThree);
 ////////////////////////////////
 
 
@@ -779,6 +870,9 @@ function animate() {
 
     world.step(timestep);
     Character.update();
+    
+    checkFirstCheckpoint();
+    checkSecondCheckpoint();
 
     
     // 3rd person camera
