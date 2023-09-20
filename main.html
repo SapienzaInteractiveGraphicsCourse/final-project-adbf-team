@@ -2,7 +2,146 @@
 <html lang="en"></html>
 <head>
    <meta charset="utf-8">
+   
+   <link href="start/start.css" rel="stylesheet" type="text/css">
+   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Aclonica" />
 </head>
 <body>
-   <script type="module" src="index.js"></script>
-</body>  
+<div class="genitore">  
+    <img src="start/sfondo_.gif" style="width: 100%;">
+</div>  
+<div class="genitore"> 
+  
+  <div class="center" >  
+    
+    <img src="start/ONLY.png">
+    <br>
+    <button id="myBtn"><u>RULES</u></button>
+
+  </div>
+    <br>
+  <div class="center" > 
+    <label class="title" >CHOOSE A CHARACTER:</label>
+    <br>
+    
+    
+    <div class="contcards" >
+      <div class="card2" ></div>
+      <div class="card" >
+        <img src="start/boy.png" alt="Avatar" >
+        <div class="container">
+         
+            <input type="radio" id="selectFirefighter" checked="checked" name="char"  value="firefighter">
+            <label class="container2" for="char">BOY</label>
+          
+          
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="start/girl.png" alt="Avatar">
+        <div class="container">
+            <input type="radio"  id="selectGirl" name="char" value="girl">
+            <label class="container2" for="char">GIRL</label>
+          </label>
+        </div>
+      </div>
+
+     
+      
+    </div>
+  
+  <br>
+    
+  <label class="title">LEVEL DIFFICULTY (able/disable checkpoint):</label>
+  <br>
+
+  <label class="toggle">
+    <input type="checkbox">
+    <span class="slider"></span>
+    <span class="labels" data-on="EASY" data-off="HARD "></span>
+  </label>
+ 
+  
+      <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      Commands:
+      <p class="box"><text class="tasti">W</text> - Forward </p>
+      <p class="box"><text class="tasti">A</text> - Left </p>
+      <p class="box"><text class="tasti">D</text> - Right </p>
+      <p class="box"><text class="tasti">S</text> - Backward </p>
+      <p class="box"><text class="tasti">SHIFT</text> - Speed Up </p>
+      <p class="box"><text class="tasti">SPACE</text> - Jump </p>
+      
+      Goal: <br>
+      <p class="description">Only Up! is a captivating platform-climbing game that 
+        features a boy as he jumps on various surfaces to reach higher places.</p>
+      
+      Checkpoint: <br>
+      <p class="description">Pressing <text class="tasti">L</text> can return to the last checkpoint reached at any time.</p>
+      
+      Difficulty: <br>
+      <p class="description">You can turn off checkpoints for more difficulty.</p>
+
+    </div>
+
+  </div>
+</div>
+
+<br>
+    <button class="button" onclick="submitValue();">START</button>  
+    <br>
+
+  
+
+
+
+</body>
+  
+<script>
+
+
+function submitValue() {
+        // Get the value entered by the user
+        var input = document.querySelector("input[type='radio'][name='char']:checked");
+        var value = input.value;
+        
+        // Store the value in localStorage
+        localStorage.setItem('myValue', value);
+        
+        // Redirect to the second page
+        window.location.href = 'test_character.html';
+      }
+  // Get the modal
+  var modal = document.getElementById("myModal");
+  
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+  
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  
+  // When the user clicks the button, open the modal 
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  
+   
+  </script>

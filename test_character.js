@@ -144,33 +144,42 @@ scene.background = textureCube;
 let selectedCharacter = '';
 
 //CHOOSE PLAYER
-//function loadCharacter(characterType) {
-//    // Clear existing characters or perform any cleanup if needed
-//    selectedCharacter = characterType;
-//    // Load the selected character
-//    if (characterType === 'girl') {
-//      _LoadModels('./models/girl/scene.gltf', 0.5, -5, -0.5, -12);
-//    } else if (characterType === 'firefighter') {
-//      _LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -0.5, -12);
-//    }
-//  }
+function loadCharacter(characterType) {
+    // Clear existing characters or perform any cleanup if needed
+    //selectedCharacter = characterType;
+    // Load the selected character
+    if (characterType === 'girl') {
+        selectedCharacter = 'girl';
+      _LoadModels('./models/girl/scene.gltf', 0.5, -5, -0.5, -12);
+      
+    } else {
+        selectedCharacter = 'firefighter';
+      _LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -0.5, -12);
+      
+    }
+  }
 ///------------------------------------------------------
   
+var value;
   // Event listeners for character selection
-  //document.getElementById('selectGirl').addEventListener('click', function () {
-  //  loadCharacter('girl');
-  //});
-  //
+  window.onload = function() {
+    // Get the value from localStorage
+    value = localStorage.getItem('myValue');
+    if (value == 'girl') loadCharacter('girl');
+    else loadCharacter('firefighter');
+  }
+    
+    export { selectedCharacter };
   //document.getElementById('selectFirefighter').addEventListener('click', function () {
-  //  loadCharacter('firefighter');
+    //loadCharacter('firefighter');
   //});
 
   //Demo: mette sempre pompiere
-  _LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -1.2, -12);
-  selectedCharacter = 'firefighter';
+  //_LoadModels('./models/firefighter/scene.gltf', 0.2, -5, -1.2, -12);
+  //selectedCharacter = 'firefighter';
   //selectedCharacter = 'girl';
   //_LoadModels('./models/girl/scene.gltf', 0.5, -5, -1.2, -12);
-  export { selectedCharacter };
+  
 ////_LoadModels('./models/spaceboy/scene.gltf',3,0,1,0);
 
 //StopWatch
