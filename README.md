@@ -4,8 +4,7 @@
 <br />
 <br />
 <p align="center">
-  <a href="https://github.com/SapienzaInteractiveGraphicsCourse/final-project-la_dl-team">
-    <img alt="SuperMario" title="SuperMario" src="start/ONLY.png" width="450">
+    <img  title="Onlyup" src="start/ONLY.png" width="450">
   </a>
 </p>
 
