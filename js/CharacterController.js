@@ -207,9 +207,7 @@ class CharacterControllerInput { //resposible for keyboard and other controller 
                 break;
             case 16: // SHIFT
                 this._keys.shift = true;
-                break;
-            case 86: //v
-                this._keys.view = true;    
+                break;    
             case 48: //0
             this._keys.fly = !this._keys.fly;
                 break;
