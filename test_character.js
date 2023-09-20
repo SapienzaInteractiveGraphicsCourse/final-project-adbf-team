@@ -808,6 +808,470 @@ const loaderTrain = new GLTFLoader();
 
     });
 
+    const loaderBarrel = new GLTFLoader();
+    loaderBarrel.load('models/obstacles/beer_barrel.glb', function(gltf){
+    barrel= gltf.scene;
+    barrel.scale.set(2.6,2.6,2.6);
+    barrel.position.set(1,9,0);
+    barrel.rotation.y = 10;
+    scene.add(barrel);
+
+    const boundingBox = new THREE.Box3().setFromObject(barrel);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const barrelShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.4, dimensions.y*0.4, dimensions.z*0.2));
+
+    const barrelBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: barrelShape,
+        color: 0x00ff00
+    });
+
+    barrelBody.position = new CANNON.Vec3(1.3,9.5,0);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    const eulerY = 10;
+    rotationQuaternion.setFromEuler(0, eulerY, 0);
+    barrelBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(barrelBody);
+});
+
+    const loadercamera = new GLTFLoader();
+    loadercamera.load('models/obstacles/camera.glb', function(gltf){
+    camera_obj= gltf.scene;
+    camera_obj.scale.set(0.008,0.008,0.008);
+    camera_obj.position.set(-1,9.6,1);
+    camera_obj.receiveShadow = true;
+    
+    scene.add(camera_obj);
+
+    const boundingBox = new THREE.Box3().setFromObject(camera_obj);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const cameraShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.5, dimensions.y*0.6, dimensions.z*0.4));
+
+    const cameraBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: cameraShape,
+    });
+
+    cameraBody.position = new CANNON.Vec3(-0.8,10,1.0);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    cameraBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(cameraBody);
+});
+
+const loaderguitar = new GLTFLoader();
+loaderguitar.load('models/obstacles/acoustic_guitar.glb', function(gltf){
+    guitar= gltf.scene;
+    guitar.scale.set(4.5,4.5,4.5);
+    guitar.position.set(-3,11.8,1);
+    guitar.rotation.y = 0;
+    
+    scene.add(guitar);
+
+    const boundingBox = new THREE.Box3().setFromObject(guitar);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const guitarShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.3, dimensions.y*0.15, dimensions.z*0.2));
+
+    const guitarBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: guitarShape,
+    });
+
+    guitarBody.position = new CANNON.Vec3(-3.3,11.5,2.2);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    guitarBody.quaternion.copy(rotationQuaternion);
+
+    const g2Shape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.03, dimensions.y*0.15, dimensions.z*0.25));
+    const g2Body = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: g2Shape,
+    });
+    g2Body.position = new CANNON.Vec3(-3.0,11.5,0);
+
+    world.addBody(guitarBody);
+    world.addBody(g2Body);
+});
+
+const loaderskate = new GLTFLoader();
+loaderskate.load('models/obstacles/skateboard.glb', function(gltf){
+    skate= gltf.scene;
+    skate.scale.set(4.5,4.5,4.5);
+    skate.position.set(-5,12.4,0.5);
+    skate.rotation.y = 70;
+    
+    scene.add(skate);
+
+    const boundingBox = new THREE.Box3().setFromObject(skate);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const skateShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.55, dimensions.y*0.5, dimensions.z*0.08));
+
+    const skateBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: skateShape,
+    });
+
+    skateBody.position = new CANNON.Vec3(-5.,12.4,0.7);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    const eulerY = 70; 
+    rotationQuaternion.setFromEuler(0, eulerY, 0);
+    skateBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(skateBody);
+
+});
+
+const loaderpan = new GLTFLoader();
+loaderpan.load('models/obstacles/old_frying_pan.glb', function(gltf){
+    pan= gltf.scene;
+    pan.scale.set(0.008,0.008,0.008);
+    pan.position.set(-6.8,13.8,-0.5);
+    pan.rotation.y = 20;
+    scene.add(pan);
+
+    const boundingBox = new THREE.Box3().setFromObject(pan);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const panShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.2, dimensions.y*0.1, dimensions.z*0.2));
+
+    const panBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: panShape,
+    });
+
+    panBody.position = new CANNON.Vec3(-7,13.3,-0.7);
+
+    const pan2Shape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.02, dimensions.y*0.05, dimensions.z*0.15));
+    const pan2Body = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: pan2Shape,
+    });
+    pan2Body.position = new CANNON.Vec3(-5.8,14.0,-2.1);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    const eulerX = 0.25; 
+    const eulerY = -0.6; 
+    const eulerZ = 0.15; 
+    rotationQuaternion.setFromEuler(eulerX, eulerY, eulerZ);
+    pan2Body.quaternion.copy(rotationQuaternion);
+
+    world.addBody(panBody);
+    world.addBody(pan2Body);
+});
+
+const loaderplane = new GLTFLoader();
+loaderplane.load('models/obstacles/gothabomber_stylised_plane.glb', function(gltf){
+    plane= gltf.scene;
+    plane.scale.set(0.02,0.02,0.02);
+    plane.position.set(-7.3,13.2,-6);
+    plane.rotation.y = 210;
+    scene.add(plane);
+
+    const boundingBox = new THREE.Box3().setFromObject(plane);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const planeShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.35, dimensions.y*0.3, dimensions.z*0.08));
+
+    const planeBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: planeShape,
+    });
+
+    planeBody.position = new CANNON.Vec3(-7.4,13.6,-5.6);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    const eulerY = -0.60;
+    rotationQuaternion.setFromEuler(0, eulerY, 0);
+    planeBody.quaternion.copy(rotationQuaternion);
+
+    const plane2Shape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.05, dimensions.y*0.05, dimensions.z*0.20));
+    const plane2Body = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: plane2Shape,
+    });
+    plane2Body.position = new CANNON.Vec3(-7.2,14.8,-6.0);
+
+    const rotationQuaternion2 = new CANNON.Quaternion();
+    const euler2X = 0.38;
+    const euler2Y = -0.50;
+    rotationQuaternion2.setFromEuler(euler2X, euler2Y, 0);
+    plane2Body.quaternion.copy(rotationQuaternion2);
+
+    const planeBarrShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.05, dimensions.y*0.1, dimensions.z*0.05));
+    const planeBarrBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: planeBarrShape,
+    });
+    planeBarrBody.position = new CANNON.Vec3(-8.5,14.0,-3.7);
+
+    const rotationQuaternion3 = new CANNON.Quaternion();
+    const euler3Y = 0;
+    rotationQuaternion2.setFromEuler(0, euler3Y, 0);
+    planeBarrBody.quaternion.copy(rotationQuaternion3);
+
+    world.addBody(planeBody);
+    world.addBody(plane2Body);
+    world.addBody(planeBarrBody);
+
+});
+
+const loadermagic_cube = new GLTFLoader();
+loadermagic_cube.load('models/obstacles/magic_cube.glb', function(gltf){
+    magic_cube= gltf.scene;
+    magic_cube.scale.set(8.5,8.5,8.5);
+    magic_cube.position.set(-2,15,-4);
+    scene.add(magic_cube);
+
+    const boundingBox = new THREE.Box3().setFromObject(magic_cube);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const magic_cubeShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.5, dimensions.y*0.5, dimensions.z*0.5));
+
+    const magic_cubeBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: magic_cubeShape,
+    });
+
+    magic_cubeBody.position = new CANNON.Vec3(-1.9,14.8,-3.9);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    magic_cubeBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(magic_cubeBody);
+
+});
+
+const loaderbowling_pin = new GLTFLoader();
+loaderbowling_pin.load('models/obstacles/bowling_pin.glb', function(gltf){
+    bowling_pin= gltf.scene;
+    bowling_pin.scale.set(10.5,10.5,10.5);
+    bowling_pin.position.set(1,15.5,-4);
+    bowling_pin.rotation.x = 90;
+    bowling_pin.rotation.z = 180;
+    scene.add(bowling_pin);
+
+    const boundingBox = new THREE.Box3().setFromObject(bowling_pin);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const bowling_pinShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.50, dimensions.y*0.3, dimensions.z*0.20));
+
+    const bowling_pinBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: bowling_pinShape,
+    });
+
+    bowling_pinBody.position = new CANNON.Vec3(2.2,15.7,-5);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    const eulerX = 0.35; 
+    const eulerY = 0.50; 
+    rotationQuaternion.setFromEuler(eulerX, eulerY, 0);
+    bowling_pinBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(bowling_pinBody);
+
+});
+
+const loaderorange = new GLTFLoader();
+loaderorange.load('models/obstacles/orange_half.glb', function(gltf){
+    orange= gltf.scene;
+    orange.scale.set(1.2,1.2,1.2);
+    orange.position.set(6.2,17,-6);
+    scene.add(orange);
+
+    const boundingBox = new THREE.Box3().setFromObject(orange);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const orangeShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.48, dimensions.y*0.3, dimensions.z*0.48));
+
+    const orangeBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: orangeShape,
+    });
+
+    orangeBody.position = new CANNON.Vec3(6.2,16.5,-6);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    orangeBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(orangeBody);
+
+});
+
+const loaderwood = new GLTFLoader();
+loaderwood.load('models/obstacles/wood.glb', function(gltf){
+    wood= gltf.scene;
+    wood.scale.set(7.2,7.2,7.2);
+    wood.position.set(-6,15.4,-11);
+    wood.rotation.y = 5;
+    
+    scene.add(wood);
+
+    const boundingBox = new THREE.Box3().setFromObject(wood);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const woodShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.45, dimensions.y*0.5, dimensions.z*0.2));
+
+    const woodBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: woodShape,
+    });
+
+    woodBody.position = new CANNON.Vec3(-6,15.3,-11);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    const eulerY = 0.30;
+    rotationQuaternion.setFromEuler(0, eulerY, 0);
+    woodBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(woodBody);
+
+});
+
+const loaderhat = new GLTFLoader();
+loaderhat.load('models/obstacles/steampunk_hat.glb', function(gltf){
+    hat= gltf.scene;
+    hat.scale.set(6.2,6.2,6.2);
+    hat.position.set(-2,16,-13);
+    
+    scene.add(hat);
+
+    const boundingBox = new THREE.Box3().setFromObject(hat);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const hatShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.3, dimensions.y*0.5, dimensions.z*0.25));
+
+    const hatBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: hatShape,
+    });
+
+    hatBody.position = new CANNON.Vec3(-2,15.8,-13);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    hatBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(hatBody);
+
+});
+
+const loaderbook = new GLTFLoader();
+loaderbook.load('models/obstacles/book.glb', function(gltf){
+    book= gltf.scene;
+    book.scale.set(100.2,100.2,100.2);
+    book.position.set(2.5,17,-14);
+    
+    scene.add(book);
+
+    const boundingBox = new THREE.Box3().setFromObject(book);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const bookShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.48, dimensions.y*0.5, dimensions.z*0.48));
+
+    const bookBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: bookShape,
+    });
+
+    bookBody.position = new CANNON.Vec3(2.5,17,-14);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    bookBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(bookBody);
+
+});
+
+const loaderstone = new GLTFLoader();
+loaderstone.load('models/obstacles/stone.glb', function(gltf){
+    stone= gltf.scene;
+    stone.scale.set(0.008,0.008,0.008);
+    stone.position.set(6,17.5,-15);
+    
+    scene.add(stone);
+
+    const boundingBox = new THREE.Box3().setFromObject(stone);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const stoneShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.4, dimensions.y*0.3, dimensions.z*0.3));
+
+    const stoneBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: stoneShape,
+    });
+
+    stoneBody.position = new CANNON.Vec3(5.6,18.2,-15);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    stoneBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(stoneBody);
+
+});
+
+const loaderstone2 = new GLTFLoader();
+loaderstone2.load('models/obstacles/stone.glb', function(gltf){
+    stone2= gltf.scene;
+    stone2.scale.set(0.008,0.008,0.008);
+    stone2.position.set(9.5,17.0,-7.3);
+    
+    scene.add(stone2);
+
+    const boundingBox = new THREE.Box3().setFromObject(stone2);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const stone2Shape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.5, dimensions.y*0.5, dimensions.z*0.4));
+
+    const stone2Body = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: stone2Shape,
+    });
+
+    stone2Body.position = new CANNON.Vec3(9.0,17.3,-7.5);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    stone2Body.quaternion.copy(rotationQuaternion);
+
+    world.addBody(stone2Body);
+
+});
+
+const loaderfinal_check = new GLTFLoader();
+loaderfinal_check.load('models/checkpoint/round_platform.glb', function(gltf){
+    final_check= gltf.scene;
+    final_check.scale.set(1,1,1);
+    final_check.position.set(11,18,-13);
+    final_check.rotation.y = 210;
+    scene.add(final_check);
+
+    const boundingBox = new THREE.Box3().setFromObject(final_check);
+    const dimensions = boundingBox.getSize(new THREE.Vector3());
+
+    const final_checkShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.35, dimensions.y*0.5, dimensions.z*0.35));
+
+    const final_checkBody = new CANNON.Body({
+        mass: 0, // Set mass to 0 to make it static
+        shape: final_checkShape,
+    });
+
+    final_checkBody.position = new CANNON.Vec3(11,18,-13);
+
+    const rotationQuaternion = new CANNON.Quaternion();
+    //const eulerY = 11.5; // No rotation around the Z-axis
+    //rotationQuaternion.setFromEuler(0, 0, 0);
+    final_checkBody.quaternion.copy(rotationQuaternion);
+
+    world.addBody(final_checkBody);
+
+});
 
 /////////BODY//////////////////
 
