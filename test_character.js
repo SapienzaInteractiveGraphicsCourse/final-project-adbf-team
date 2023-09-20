@@ -194,7 +194,64 @@ function onKeyPress(event) {
     }
   }
 }
-//
+//Check Borders
+var out = false;
+function checkBorders(){
+    const characterPosition = character_body.position;
+if (
+    characterPosition.x <= -16 &&
+    characterPosition.y <= -1     
+    )
+{
+    out = true;
+    //console.log("CIAO");
+}
+else if(
+    characterPosition.x >= 7 &&
+    characterPosition.y <= -1
+    )
+{
+    out = true;
+    //console.log("CIAO");
+}
+else if(
+    characterPosition.z <= -15.5 &&
+    characterPosition.y <= -1
+    )
+{
+    out = true;
+    //console.log("CIAO");
+}
+else if(
+    characterPosition.z >= 7 &&
+    characterPosition.y <= -1
+    )
+{
+    out = true;
+    //console.log("CIAO");
+}
+
+if(out){
+    out = false;
+    if(firstCheckpoint && !secondCheckpoint){
+        const newPosition = new THREE.Vector3(-0.05, 3.1, -8.4);
+        character_body.position.copy(newPosition);
+        meshes_character.rotation.set(0, Math.PI/2, 0);
+    }
+    else if(secondCheckpoint){
+        const newPosition = new THREE.Vector3(4.95, 9.59, -1.6);
+        character_body.position.copy(newPosition);
+        meshes_character.rotation.set(0, Math.PI, 0);
+        }
+    else{
+    const newPosition = new THREE.Vector3(-5, -1.2, -12);
+    
+    character_body.position.copy(newPosition);
+    meshes_character.rotation.set(0, 0, 0);
+    //character_body.rotation.copy(newRotation);
+    }
+}
+}
 
 ///
 //First Checkpoint
@@ -1448,7 +1505,7 @@ function animate() {
     world.step(timestep);
     Character.update();
     
-
+    checkBorders();
     checkFirstCheckpoint();
     checkSecondCheckpoint();
     checkFinish();
