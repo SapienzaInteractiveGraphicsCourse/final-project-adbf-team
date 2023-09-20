@@ -23,65 +23,65 @@ loadingManager.onLoad = function(){ //This function will be called when all load
 
 
 /*-------------------------------------------TEST ENVIRONMENT-----------------------------------------------*/
-const skyColor = new THREE.Color(0xadd8e6); // Clear blue color
+//const skyColor = new THREE.Color(0xadd8e6); // Clear blue color
 //SCENE
 const scene = new THREE.Scene();
 
-scene.background = skyColor;
+//scene.background = skyColor;
 
 //GRID USED FOR TESTING
 // Define grid parameters
-const gridSize = 20; // Size of the grid
-const gridSpacing = 1; // Spacing between grid lines
-const numLines = Math.floor(gridSize / gridSpacing) * 2 + 1; // Number of grid lines
+//const gridSize = 20; // Size of the grid
+//const gridSpacing = 1; // Spacing between grid lines
+//const numLines = Math.floor(gridSize / gridSpacing) * 2 + 1; // Number of grid lines
+//
+//// Create grid material
+//const gridMaterial = new THREE.LineBasicMaterial({ color: 0x999999 });
+//
+//// Create grid geometry
+//const gridGeometry = new THREE.BufferGeometry();
+//const positions = [];
+//for (let i = -gridSize; i <= gridSize; i += gridSpacing) {
+//// Horizontal lines
+//positions.push(-gridSize, 0, i);
+//positions.push(gridSize, 0, i);
+//
+//// Vertical lines
+//positions.push(i, 0, -gridSize);
+//positions.push(i, 0, gridSize);
+//}
+//gridGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+//
+//// Create grid mesh
+//const grid = new THREE.LineSegments(gridGeometry, gridMaterial);
+//
+//// Position the grid in your scene
+//// You can adjust these coordinates based on your desired positions
+//grid.position.set(0, -1, 0); // Set to the center of your scene
+//scene.add(grid);
 
-// Create grid material
-const gridMaterial = new THREE.LineBasicMaterial({ color: 0x999999 });
-
-// Create grid geometry
-const gridGeometry = new THREE.BufferGeometry();
-const positions = [];
-for (let i = -gridSize; i <= gridSize; i += gridSpacing) {
-// Horizontal lines
-positions.push(-gridSize, 0, i);
-positions.push(gridSize, 0, i);
-
-// Vertical lines
-positions.push(i, 0, -gridSize);
-positions.push(i, 0, gridSize);
-}
-gridGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-
-// Create grid mesh
-const grid = new THREE.LineSegments(gridGeometry, gridMaterial);
-
-// Position the grid in your scene
-// You can adjust these coordinates based on your desired positions
-grid.position.set(0, -1, 0); // Set to the center of your scene
-scene.add(grid);
-
-function createLabel(text, position) {
-    const loader = new THREE.FontLoader();
-    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
-    const textGeometry = new THREE.TextGeometry(text, {
-        font: font,
-        size: 0.2, // Adjust text size as needed
-        height: 0.02, // Adjust text height as needed
-    });
-    const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
-    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-    textMesh.position.copy(position);
-    scene.add(textMesh);
-    });
-}
-
-// Add labels at each intersection of the grid
-for (let x = -gridSize; x <= gridSize; x += gridSpacing) {
-    for (let z = -gridSize; z <= gridSize; z += gridSpacing) {
-    const labelPosition = new THREE.Vector3(x, -1, z); // Adjust Y position as needed
-    createLabel(`(${x}, ${z})`, labelPosition);
-    }
-}
+//function createLabel(text, position) {
+//    const loader = new THREE.FontLoader();
+//    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+//    const textGeometry = new THREE.TextGeometry(text, {
+//        font: font,
+//        size: 0.2, // Adjust text size as needed
+//        height: 0.02, // Adjust text height as needed
+//    });
+//    const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+//    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+//    textMesh.position.copy(position);
+//    scene.add(textMesh);
+//    });
+//}
+//
+//// Add labels at each intersection of the grid
+//for (let x = -gridSize; x <= gridSize; x += gridSpacing) {
+//    for (let z = -gridSize; z <= gridSize; z += gridSpacing) {
+//    const labelPosition = new THREE.Vector3(x, -1, z); // Adjust Y position as needed
+//    createLabel(`(${x}, ${z})`, labelPosition);
+//    }
+//}
 ////
 
 
@@ -103,8 +103,18 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( document.documentElement.clientWidth, document.documentElement.clientHeight );
 document.body.appendChild( renderer.domElement );
 
+// SKYBOX
 
+const skyboxLoader = new THREE.CubeTextureLoader();
+skyboxLoader.setPath( 'skyText/' );
 
+const textureCube = skyboxLoader.load([
+  'right.png', 'left.png', // RIGHT, LEFT
+  'up.png', 'down.png', // UP, DOWN
+  'front.png', 'back.png'  //FRONT, BACK
+]);
+
+scene.background = textureCube;
 
 // STAGE (Solid Plane with Soft Color)
 //const stageSize = 15; 
@@ -163,8 +173,49 @@ let selectedCharacter = '';
   export { selectedCharacter };
 ////_LoadModels('./models/spaceboy/scene.gltf',3,0,1,0);
 
+//StopWatch
+const timerElement = document.createElement('div');
+timerElement.id = 'timer-container';
+timerElement.textContent = 'Start the timer by moving!';
+document.body.appendChild(timerElement);
 
+let startTime;
+let timerInterval;
+let elapsedTime = 0; // Initialize elapsedTime to 0
 
+// Function to start the stopwatch
+function startTimer() {
+    startTime = new Date().getTime();
+    timerInterval = setInterval(updateTimer, 100);
+}
+
+// Function to update the timer display
+function updateTimer() {
+    if (!finish) {
+        const currentTime = new Date().getTime();
+        elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
+        timerElement.textContent = `Current time: ${elapsedTime.toFixed(2)} seconds`;
+    } else {
+        clearInterval(timerInterval); // Stop the timer
+        congratulate(elapsedTime); // Display congratulations message
+    }
+}
+
+// Function to end stopwatch (CONSOLE.LOG DA SOSTITUIRE)
+function congratulate(elapsedTime) {
+    console.log(`Congrats, you've won the game in ${elapsedTime.toFixed(2)} seconds!`);
+}
+
+// Listen for key button to start
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'w' || event.key === 'W' || event.key === 's'|| event.key === 'S'|| event.key === 'A'|| event.key === 'a'|| event.key === 'D'
+      || event.key === 'd'|| event.key === ' ' || event.shiftKey) {
+        if (!timerInterval) {
+            startTimer();
+        }
+    }
+});
+//////////////
 
 //Checkpoint
 //keydown event listener
@@ -331,6 +382,25 @@ function checkSecondCheckpoint() {
         secondCheckpoint = true;
     }
 }
+
+//Movement on Book
+
+//function isOnBook() {
+    //const characterPosition = character_body.position;
+
+    // Check if character's position is inside the book's region
+
+    //if (
+    //    characterPosition.x >= book.position_x - 1 &&
+    //    characterPosition.x <= book.position_x + 1 &&
+    //    characterPosition.y >= book.position_y - 0.5 &&
+    //    characterPosition.y <= book.position_y + 0.5 &&
+    //    characterPosition.z >= book.position_z - 2 &&
+    //    characterPosition.z <= book.position_z + 2
+    //) { 
+        // Trasla personaggio sull'asse Z come il Libro
+    //}
+//}
 
 //Finish!
 // Define the region boundaries (box) using coordinates
@@ -738,7 +808,7 @@ const loaderCan = new GLTFLoader();
 loaderCan.load('models/obstacles/living_garbage_can.glb', function(gltf){
     can= gltf.scene;
     can.scale.set(0.3,0.3,0.3);
-    can.position.set(-1.2,6.7,2.45);
+    can.position.set(-2,6.7,2.45);
     can.rotation.x = 14;
     scene.add(can);
 
@@ -752,7 +822,7 @@ loaderCan.load('models/obstacles/living_garbage_can.glb', function(gltf){
         shape: canShape,
     });
 
-    canBody.position = new CANNON.Vec3(-1.2,6.2,2.0);
+    canBody.position = new CANNON.Vec3(-2,6.2,2.0);
     const rotationQuaternion = new CANNON.Quaternion();
     const eulerX = 14;
     const eulerY = 0;
@@ -910,7 +980,7 @@ const loaderTrain = new GLTFLoader();
     loaderBarrel.load('models/obstacles/beer_barrel.glb', function(gltf){
     barrel= gltf.scene;
     barrel.scale.set(2.6,2.6,2.6);
-    barrel.position.set(1,9,0);
+    barrel.position.set(1,9.5,-1);
     barrel.rotation.y = 10;
     scene.add(barrel);
 
@@ -925,7 +995,7 @@ const loaderTrain = new GLTFLoader();
         color: 0x00ff00
     });
 
-    barrelBody.position = new CANNON.Vec3(1.3,9.5,0);
+    barrelBody.position = new CANNON.Vec3(1.3,10,-1);
 
     const rotationQuaternion = new CANNON.Quaternion();
     const eulerY = 10;
@@ -940,7 +1010,7 @@ const loaderTrain = new GLTFLoader();
     loadercamera.load('models/obstacles/camera.glb', function(gltf){
     camera_obj= gltf.scene;
     camera_obj.scale.set(0.008,0.008,0.008);
-    camera_obj.position.set(-1,9.6,1);
+    camera_obj.position.set(-1,9.9,1);
     camera_obj.receiveShadow = true;
     
     scene.add(camera_obj);
@@ -955,7 +1025,7 @@ const loaderTrain = new GLTFLoader();
         shape: cameraShape,
     });
 
-    cameraBody.position = new CANNON.Vec3(-0.8,10,1.0);
+    cameraBody.position = new CANNON.Vec3(-0.8,10.3,1.0);
 
     const rotationQuaternion = new CANNON.Quaternion();
     cameraBody.quaternion.copy(rotationQuaternion);
@@ -1081,7 +1151,7 @@ loaderplane.load('models/obstacles/gothabomber_stylised_plane.glb', function(glt
     const boundingBox = new THREE.Box3().setFromObject(plane);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const planeShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.35, dimensions.y*0.3, dimensions.z*0.08));
+    const planeShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.35, dimensions.y*0.3, dimensions.z*0.06));
 
     const planeBody = new CANNON.Body({
         mass: 0, // Set mass to 0 to make it static
@@ -1091,7 +1161,7 @@ loaderplane.load('models/obstacles/gothabomber_stylised_plane.glb', function(glt
     planeBody.position = new CANNON.Vec3(-7.4,13.6,-5.6);
 
     const rotationQuaternion = new CANNON.Quaternion();
-    const eulerY = -0.60;
+    const eulerY = -0.50;
     rotationQuaternion.setFromEuler(0, eulerY, 0);
     planeBody.quaternion.copy(rotationQuaternion);
 
@@ -1113,11 +1183,11 @@ loaderplane.load('models/obstacles/gothabomber_stylised_plane.glb', function(glt
         mass: 0, // Set mass to 0 to make it static
         shape: planeBarrShape,
     });
-    planeBarrBody.position = new CANNON.Vec3(-8.5,14.0,-3.7);
+    planeBarrBody.position = new CANNON.Vec3(-8.5,14.0,-3.8);
 
     const rotationQuaternion3 = new CANNON.Quaternion();
-    const euler3Y = 0;
-    rotationQuaternion2.setFromEuler(0, euler3Y, 0);
+    //const euler3Y = 0;
+    //rotationQuaternion2.setFromEuler(0, euler3Y, 0);
     planeBarrBody.quaternion.copy(rotationQuaternion3);
 
     world.addBody(planeBody);
@@ -1176,7 +1246,7 @@ loaderbowling_pin.load('models/obstacles/bowling_pin.glb', function(gltf){
     bowling_pinBody.position = new CANNON.Vec3(2.2,15.7,-5);
 
     const rotationQuaternion = new CANNON.Quaternion();
-    const eulerX = 0.35; 
+    const eulerX = 0.30;
     const eulerY = 0.50; 
     rotationQuaternion.setFromEuler(eulerX, eulerY, 0);
     bowling_pinBody.quaternion.copy(rotationQuaternion);
@@ -1225,7 +1295,7 @@ loaderwood.load('models/obstacles/wood.glb', function(gltf){
     const boundingBox = new THREE.Box3().setFromObject(wood);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const woodShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.45, dimensions.y*0.5, dimensions.z*0.2));
+    const woodShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.45, dimensions.y*0.5, dimensions.z*0.25));
 
     const woodBody = new CANNON.Body({
         mass: 0, // Set mass to 0 to make it static
@@ -1297,32 +1367,34 @@ loaderbook.load('models/obstacles/book.glb', function(gltf){
 
     world.addBody(bookBody);
 
-    //let moveDirection = 1; // 1 for right, -1 for left
-    //const moveSpeed = 0.02; // Adjust the speed of movement as needed
-    //let maxRightPosition = -11; // Adjust the right limit
-    //let maxLeftPosition = -18; // Adjust the left limit
-    // // Function to update the book's position and trigger animation
-    // function animateBook() {
-    //    // Update the book's position based on the current direction
-    //    book.translateZ(moveDirection * moveSpeed);
-    //    bookBody.position.copy(book.position); 
-//
-    //    // Check if the book has reached its left or right limit and reverse the direction
-    //    if (book.position.z >= maxRightPosition) {
-    //        moveDirection = -1;
-    //    } else if (book.position.z <= maxLeftPosition) {
-    //        moveDirection = 1;
-    //    }
-//
-    //    // Render the scene
-    //    renderer.render(scene, camera);
-//
-    //    // Request the next frame
-    //    requestAnimationFrame(animateBook);
-    //}
-//
-    //// Start the animation loop
-    //animateBook();
+    let moveDirection = 1; // 1 for right, -1 for left
+    const moveSpeed = 0.015; // Adjust the speed of movement as needed
+    let maxRightPosition = -10; // Adjust the right limit
+    let maxLeftPosition = -18; // Adjust the left limit
+     // Function to update the book's position and trigger animation
+     function animateBook() {
+        // Update the book's position based on the current direction
+        book.translateZ(moveDirection * moveSpeed);
+        bookBody.position.copy(book.position); 
+   
+        // Check if the book has reached its left or right limit and reverse the direction
+        if (book.position.z >= maxRightPosition) {
+            moveDirection = -1;
+        } else if (book.position.z <= maxLeftPosition) {
+            moveDirection = 1;
+        }
+
+        // isOnBook(); -- check if character is on book and moove it
+
+        // Render the scene
+        renderer.render(scene, camera);
+   
+        // Request the next frame
+        requestAnimationFrame(animateBook);
+    }
+   
+    // Start the animation loop
+    animateBook();
 
 });
 
