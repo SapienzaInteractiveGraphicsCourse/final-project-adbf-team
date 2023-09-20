@@ -195,14 +195,16 @@ function onKeyPress(event) {
   }
 }
 //
+
+///
 //First Checkpoint
 // Define the region boundaries (box) using coordinates
-const minX = -1.16; // Replace with your desired minimum X coordinate
-const maxX = 1.1;  // Replace with your desired maximum X coordinate
-const minY = 2.5;  // Replace with your desired minimum Y coordinate
-const maxY = 3.5;  // Replace with your desired maximum Y coordinate
-const minZ = -9.525; // Replace with your desired minimum Z coordinate
-const maxZ = -7.3;  // Replace with your desired maximum Z coordinate
+const minX = -1.16; // 
+const maxX = 1.1;  // 
+const minY = 2.5;  // 
+const maxY = 3.5;  // 
+const minZ = -9.525; // 
+const maxZ = -7.3;  // 
 
 // Create a variable to track whether the character is inside the region
 var firstCheckpoint = false;
@@ -237,12 +239,12 @@ function checkFirstCheckpoint() {
 
 //Second Checkpoint
 // Define the region boundaries (box) using coordinates
-const min2X = 4; // Replace with your desired minimum X coordinate
-const max2X = 6;  // Replace with your desired maximum X coordinate
-const min2Y = 8.7;  // Replace with your desired minimum Y coordinate
-const max2Y = 12;  // Replace with your desired maximum Y coordinate
-const min2Z = -3; // Replace with your desired minimum Z coordinate
-const max2Z = -0.8;  // Replace with your desired maximum Z coordinate
+const min2X = 4; // 
+const max2X = 6;  // 
+const min2Y = 8.7;  // 
+const max2Y = 12;  // 
+const min2Z = -3; // 
+const max2Z = -0.8;  // 
 
 // Create a variable to track whether the character is inside the region
 var secondCheckpoint = false;
@@ -275,12 +277,12 @@ function checkSecondCheckpoint() {
 
 //Finish!
 // Define the region boundaries (box) using coordinates
-const min_finX = 10; // Replace with your desired minimum X coordinate
-const max_finX = 12;  // Replace with your desired maximum X coordinate
-const min_finY = 18;  // Replace with your desired minimum Y coordinate
-const max_finY = 20;  // Replace with your desired maximum Y coordinate
-const min_finZ = -14; // Replace with your desired minimum Z coordinate
-const max_finZ = -12;  // Replace with your desired maximum Z coordinate
+const min_finX = 10; // 
+const max_finX = 12;  // 
+const min_finY = 18;  // 
+const max_finY = 20;  // 
+const min_finZ = -14; // 
+const max_finZ = -12;  // 
 
 // Create a variable to track whether the character is inside the region
 var finish = false;
@@ -1446,9 +1448,11 @@ function animate() {
     world.step(timestep);
     Character.update();
     
+
     checkFirstCheckpoint();
     checkSecondCheckpoint();
     checkFinish();
+    
 
     
     // 3rd person camera
