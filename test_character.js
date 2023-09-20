@@ -272,11 +272,49 @@ function checkSecondCheckpoint() {
         secondCheckpoint = true;
     }
 }
+
+//Finish!
+// Define the region boundaries (box) using coordinates
+const min_finX = 10; // Replace with your desired minimum X coordinate
+const max_finX = 12;  // Replace with your desired maximum X coordinate
+const min_finY = 18;  // Replace with your desired minimum Y coordinate
+const max_finY = 20;  // Replace with your desired maximum Y coordinate
+const min_finZ = -14; // Replace with your desired minimum Z coordinate
+const max_finZ = -12;  // Replace with your desired maximum Z coordinate
+
+// Create a variable to track whether the character is inside the region
+var finish = false;
+//var geometry = new THREE.BoxGeometry(max_finX - min_finX, max_finY - min_finY, max_finZ - min_finZ);
+//var material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+//var regionBox = new THREE.Mesh(geometry, material);
+//
+//// Position the region box based on your region boundaries
+//regionBox.position.set(11,18,-13);
+//
+//// Add the region box to your scene
+//scene.add(regionBox);
+
+// Check for character's position relative to the region in your update/render loop
+function checkFinish() {
+    const characterPosition = character_body.position;
+    // Check if character's position is inside the region
+    if (
+        characterPosition.x >= min_finX &&
+        characterPosition.x <= max_finX &&
+        characterPosition.y >= min_finY &&
+        characterPosition.y <= max_finY &&
+        characterPosition.z >= min_finZ &&
+        characterPosition.z <= max_finZ
+    ) {
+        // Character is inside the region
+        finish = true;
+    }
+}
 /////////
 
-var check, map, cab, box, tree, clock, truck, chair, coach, can, 
-fridge, wardrobe, table, train, tv, woodTv, vCab, gCab, barrel, 
-camera_obj, guitar, skate, pan, plane, platform, final_check, magic_cube,
+var check, map, box, tree, clock, truck, chair, coach, can, 
+fridge, table, train, tv, woodTv, vCab, barrel, 
+camera_obj, guitar, skate, pan, plane, final_check, magic_cube,
 bowling_pin, orange, wood, hat, book, stone, stone2, flag;
 
 //MAP AND BUILDINGS
@@ -808,6 +846,7 @@ const loaderTrain = new GLTFLoader();
 
     });
 
+//Barrel
     const loaderBarrel = new GLTFLoader();
     loaderBarrel.load('models/obstacles/beer_barrel.glb', function(gltf){
     barrel= gltf.scene;
@@ -837,6 +876,7 @@ const loaderTrain = new GLTFLoader();
     world.addBody(barrelBody);
 });
 
+//Camera
     const loadercamera = new GLTFLoader();
     loadercamera.load('models/obstacles/camera.glb', function(gltf){
     camera_obj= gltf.scene;
@@ -864,6 +904,7 @@ const loaderTrain = new GLTFLoader();
     world.addBody(cameraBody);
 });
 
+//Guitar
 const loaderguitar = new GLTFLoader();
 loaderguitar.load('models/obstacles/acoustic_guitar.glb', function(gltf){
     guitar= gltf.scene;
@@ -899,6 +940,7 @@ loaderguitar.load('models/obstacles/acoustic_guitar.glb', function(gltf){
     world.addBody(g2Body);
 });
 
+//Skate
 const loaderskate = new GLTFLoader();
 loaderskate.load('models/obstacles/skateboard.glb', function(gltf){
     skate= gltf.scene;
@@ -918,7 +960,7 @@ loaderskate.load('models/obstacles/skateboard.glb', function(gltf){
         shape: skateShape,
     });
 
-    skateBody.position = new CANNON.Vec3(-5.,12.4,0.7);
+    skateBody.position = new CANNON.Vec3(-5.,12.1,0.7);
 
     const rotationQuaternion = new CANNON.Quaternion();
     const eulerY = 70; 
@@ -929,6 +971,7 @@ loaderskate.load('models/obstacles/skateboard.glb', function(gltf){
 
 });
 
+//Pan
 const loaderpan = new GLTFLoader();
 loaderpan.load('models/obstacles/old_frying_pan.glb', function(gltf){
     pan= gltf.scene;
@@ -967,6 +1010,7 @@ loaderpan.load('models/obstacles/old_frying_pan.glb', function(gltf){
     world.addBody(pan2Body);
 });
 
+//Plane
 const loaderplane = new GLTFLoader();
 loaderplane.load('models/obstacles/gothabomber_stylised_plane.glb', function(gltf){
     plane= gltf.scene;
@@ -1023,6 +1067,7 @@ loaderplane.load('models/obstacles/gothabomber_stylised_plane.glb', function(glt
 
 });
 
+//Cube
 const loadermagic_cube = new GLTFLoader();
 loadermagic_cube.load('models/obstacles/magic_cube.glb', function(gltf){
     magic_cube= gltf.scene;
@@ -1049,6 +1094,7 @@ loadermagic_cube.load('models/obstacles/magic_cube.glb', function(gltf){
 
 });
 
+//Bowling
 const loaderbowling_pin = new GLTFLoader();
 loaderbowling_pin.load('models/obstacles/bowling_pin.glb', function(gltf){
     bowling_pin= gltf.scene;
@@ -1080,6 +1126,7 @@ loaderbowling_pin.load('models/obstacles/bowling_pin.glb', function(gltf){
 
 });
 
+//Orange
 const loaderorange = new GLTFLoader();
 loaderorange.load('models/obstacles/orange_half.glb', function(gltf){
     orange= gltf.scene;
@@ -1106,6 +1153,7 @@ loaderorange.load('models/obstacles/orange_half.glb', function(gltf){
 
 });
 
+//Wood
 const loaderwood = new GLTFLoader();
 loaderwood.load('models/obstacles/wood.glb', function(gltf){
     wood= gltf.scene;
@@ -1136,6 +1184,7 @@ loaderwood.load('models/obstacles/wood.glb', function(gltf){
 
 });
 
+//Hat
 const loaderhat = new GLTFLoader();
 loaderhat.load('models/obstacles/steampunk_hat.glb', function(gltf){
     hat= gltf.scene;
@@ -1163,6 +1212,7 @@ loaderhat.load('models/obstacles/steampunk_hat.glb', function(gltf){
 
 });
 
+//Book
 const loaderbook = new GLTFLoader();
 loaderbook.load('models/obstacles/book.glb', function(gltf){
     book= gltf.scene;
@@ -1188,8 +1238,36 @@ loaderbook.load('models/obstacles/book.glb', function(gltf){
 
     world.addBody(bookBody);
 
+    //let moveDirection = 1; // 1 for right, -1 for left
+    //const moveSpeed = 0.02; // Adjust the speed of movement as needed
+    //let maxRightPosition = -11; // Adjust the right limit
+    //let maxLeftPosition = -18; // Adjust the left limit
+    // // Function to update the book's position and trigger animation
+    // function animateBook() {
+    //    // Update the book's position based on the current direction
+    //    book.translateZ(moveDirection * moveSpeed);
+    //    bookBody.position.copy(book.position); 
+//
+    //    // Check if the book has reached its left or right limit and reverse the direction
+    //    if (book.position.z >= maxRightPosition) {
+    //        moveDirection = -1;
+    //    } else if (book.position.z <= maxLeftPosition) {
+    //        moveDirection = 1;
+    //    }
+//
+    //    // Render the scene
+    //    renderer.render(scene, camera);
+//
+    //    // Request the next frame
+    //    requestAnimationFrame(animateBook);
+    //}
+//
+    //// Start the animation loop
+    //animateBook();
+
 });
 
+//Stone
 const loaderstone = new GLTFLoader();
 loaderstone.load('models/obstacles/stone.glb', function(gltf){
     stone= gltf.scene;
@@ -1217,6 +1295,7 @@ loaderstone.load('models/obstacles/stone.glb', function(gltf){
 
 });
 
+//Stone2
 const loaderstone2 = new GLTFLoader();
 loaderstone2.load('models/obstacles/stone.glb', function(gltf){
     stone2= gltf.scene;
@@ -1244,6 +1323,7 @@ loaderstone2.load('models/obstacles/stone.glb', function(gltf){
 
 });
 
+//FInish
 const loaderfinal_check = new GLTFLoader();
 loaderfinal_check.load('models/checkpoint/round_platform.glb', function(gltf){
     final_check= gltf.scene;
@@ -1271,6 +1351,37 @@ loaderfinal_check.load('models/checkpoint/round_platform.glb', function(gltf){
 
     world.addBody(final_checkBody);
 
+});
+
+//Final Flag
+const loaderflag = new GLTFLoader();
+loaderflag.load('models/checkpoint/checkered_racing_flag.glb', function(gltf){
+    flag= gltf.scene;
+   
+    flag.scale.set(1,1,1);
+    flag.position.set(11,19.8,-13);
+    
+    scene.add(flag);
+   // Create a variable to store the rotation angle
+   let rotationAngle = 0;
+
+   // Function to update the rotation and trigger animation
+   function animateFlag() {
+       // Increase the rotation angle on each frame
+       rotationAngle += 0.01; // You can adjust the speed of rotation here
+
+       // Set the rotation of the flag
+       flag.rotation.y = rotationAngle;
+
+       // Render the scene
+       renderer.render(scene, camera);
+
+       // Request the next frame
+       requestAnimationFrame(animateFlag);
+   }
+
+   // Start the animation loop
+   animateFlag(); 
 });
 
 /////////BODY//////////////////
@@ -1337,6 +1448,7 @@ function animate() {
     
     checkFirstCheckpoint();
     checkSecondCheckpoint();
+    checkFinish();
 
     
     // 3rd person camera
