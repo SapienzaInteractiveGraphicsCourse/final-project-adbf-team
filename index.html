@@ -57,7 +57,7 @@
   <br>
 
   <label class="toggle">
-    <input type="checkbox">
+    <input type="checkbox" name="difficulty" checked="checked" value="easy">
     <span class="slider"></span>
     <span class="labels" data-on="EASY" data-off="HARD "></span>
   </label>
@@ -109,9 +109,15 @@ function submitValue() {
         // Get the value entered by the user
         var input = document.querySelector("input[type='radio'][name='char']:checked");
         var value = input.value;
+
+        var value2;
+        if (document.querySelector("input[type='checkbox'][name='difficulty']:checked"))
+        value2 = document.querySelector("input[type='checkbox'][name='difficulty']:checked").value;
+        else value2 = 'hard';
         
         // Store the value in localStorage
         localStorage.setItem('myValue', value);
+        localStorage.setItem('myValue2', value2);
         
         // Redirect to the second page
         window.location.href = 'test_character.html';

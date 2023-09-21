@@ -1586,9 +1586,17 @@ function animate() {
     world.step(timestep);
     Character.update();
     
+
     checkBorders();
+
+    var checkpoint = localStorage.getItem('myValue2');
+    if (checkpoint == 'easy'){
+
     checkFirstCheckpoint();
     checkSecondCheckpoint();
+    }
+
+
     checkFinish();
     
 
