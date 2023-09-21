@@ -756,7 +756,7 @@ const loaderTv = new GLTFLoader();
 loaderTv.load('models/obstacles/tv_sony.glb', function(gltf){
     tv= gltf.scene;
     tv.scale.set(2,2,2);
-    tv.position.set(3,4.5,-3);
+    tv.position.set(3,4.8,-3);
     //tv.rotation.x = 5.8;
     tv.rotation.y = 16;
     scene.add(tv);
@@ -771,7 +771,7 @@ loaderTv.load('models/obstacles/tv_sony.glb', function(gltf){
         shape: tvShape,
     });
 
-    tvBody.position = new CANNON.Vec3(3.2,4.58,-3.0);
+    tvBody.position = new CANNON.Vec3(3.2,4.88,-3.0);
     const rotationQuaternion = new CANNON.Quaternion();
     //const eulerX = 5.8;
     const eulerY = 16;
