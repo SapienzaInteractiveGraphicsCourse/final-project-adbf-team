@@ -42,4 +42,4 @@ Final project for the course of Interactive Graphics 2022/2023.
 
 
 
-### [Click here to play the game.]([[https://github.com/SapienzaInteractiveGraphicsCourse/final-project-adbf-team/]](https://sapienzainteractivegraphicscourse.github.io/final-project-adbf-team/)https://sapienzainteractivegraphicscourse.github.io/final-project-adbf-team/)
+### [Click here to play the game.](https://sapienzainteractivegraphicscourse.github.io/final-project-adbf-team/)
