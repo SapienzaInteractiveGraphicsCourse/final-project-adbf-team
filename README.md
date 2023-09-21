@@ -1,5 +1,4 @@
-# finalproject-adbf-team
-# OnlyUP
+# finalproject-adbf-team: OnlyUP
 
 <br />
 <br />
@@ -26,7 +25,7 @@ Final project for the course of Interactive Graphics 2022/2023.
 
 ## 📜 Report
 
--   report [Link 🔗](./Report.pdf)
+-   report 
 
     In this file we write more about the code and the enviroment of our project.
 
@@ -41,14 +40,6 @@ Final project for the course of Interactive Graphics 2022/2023.
 
 </details>
 
-<details><summary><b>Show commands (Fly mode)</b></summary>
 
-- `W` `A` `S` `D`: directional movement
-- `SPACE`: go up
-- `SHIFT`: go down
-- `Mouse`: move the camera
-- `ESC`: pause
 
-</details>
-
-### [Click here to play the game.](https://sapienzainteractivegraphicscourse.github.io/finalproject-dev-team/)
+### [Click here to play the game.](https://sapienzainteractivegraphicscourse.github.io/finalproject-adbf-team/)
