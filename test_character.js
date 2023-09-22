@@ -1019,7 +1019,7 @@ const loaderTrain = new GLTFLoader();
         color: 0x00ff00
     });
 
-    barrelBody.position = new CANNON.Vec3(1.3,10,-1);
+    barrelBody.position = new CANNON.Vec3(1.3,10,-1.2);
 
     const rotationQuaternion = new CANNON.Quaternion();
     const eulerY = 10;
@@ -1136,7 +1136,7 @@ loaderpan.load('models/obstacles/old_frying_pan.glb', function(gltf){
     const boundingBox = new THREE.Box3().setFromObject(pan);
     const dimensions = boundingBox.getSize(new THREE.Vector3());
 
-    const panShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.2, dimensions.y*0.1, dimensions.z*0.2));
+    const panShape = new CANNON.Box(new CANNON.Vec3(dimensions.x*0.2, dimensions.y*0.1, dimensions.z*0.25));
 
     const panBody = new CANNON.Body({
         mass: 0, // Set mass to 0 to make it static
