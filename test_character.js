@@ -336,6 +336,9 @@ var firstCheckpoint = false;
 //scene.add(regionBox);
 
 // Check for character's position relative to the region in your update/render loop
+
+
+
 function checkFirstCheckpoint() {
     const characterPosition = character_body.position;
 
@@ -350,8 +353,14 @@ function checkFirstCheckpoint() {
     ) {
         // Character is inside the region
         firstCheckpoint = true;
+        const autoClosingAlert = document.getElementById("autoClosingAlert");
+        autoClosingAlert.classList.add("show");
     }
+    else  autoClosingAlert.classList.remove("show");
 }
+
+
+
 ///////////////////
 
 //Second Checkpoint
@@ -389,7 +398,10 @@ function checkSecondCheckpoint() {
     ) {
         // Character is inside the region
         secondCheckpoint = true;
+        const autoClosingAlert2 = document.getElementById("autoClosingAlert2");
+        autoClosingAlert2.classList.add("show2");
     }
+    else  autoClosingAlert2.classList.remove("show2");
 }
 
 //Movement on Book
@@ -446,7 +458,10 @@ function checkFinish() {
     ) {
         // Character is inside the region
         finish = true;
+        const autoClosing = document.getElementById("finish");
+        autoClosing.classList.add("show3");
     }
+    
 }
 /////////
 

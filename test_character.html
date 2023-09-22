@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TEST</title>
+    <title>Only UP!</title>
     <style>
         body {
             margin: 0; /* Reset the default margin */
@@ -25,13 +25,74 @@
         z-index: 1;
     
     }
+
+    .alert {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #f44336; /* Red background color */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    }
+
+    .show {
+        display: block;
+        animation: slideDown 0.5s ease-in-out;
+    }
+
+    .show2 {
+        display: block;
+        animation: slideDown 0.5s ease-in-out;
+    }
+
+    .finish{
+        display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #006900; /* Red background color */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    }
+
+
+    .show3 {
+        display: block;
+        
+    }
+
+    @keyframes slideDown {
+        0% {
+            transform: translateY(-100%);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
     
     
     </style>
     </style>
     <script type="module" src="test_character.js"></script>
 </head>
+<body>
+    <div class="alert" id="autoClosingAlert">
+        First Checkpoint!
+    </div>
 
+    <div class="alert" id="autoClosingAlert2">
+        Second Checkpoint!
+    </div>
+
+    <div class="finish" id="finish">
+        YOU WIN!
+    </div>
+</body>
    
 
 </html>
