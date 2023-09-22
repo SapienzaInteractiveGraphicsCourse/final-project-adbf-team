@@ -43,3 +43,5 @@ Final project for the course of Interactive Graphics 2022/2023.
 
 
 ### [Click here to play the game.](https://sapienzainteractivegraphicscourse.github.io/final-project-adbf-team/)
+
+In order to check the environment, we left the Cheat command available; after pressing '0' we can hold the space bar to fly around the map.
